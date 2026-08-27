@@ -3,7 +3,7 @@ import WorkersMap from "../components/Dashboard/WorkersMap";
 import PieChartSection from "../components/Dashboard/demographic/PieChartSection";
 import WorkCards from "../components/Dashboard/WorkCards";
 import SalesSummary from "../components/Dashboard/SalesSummary";
-import QuickLinks from "../components/Dashboard/QuickLinks";
+
 
 function Dashboard() {
   return (
@@ -14,7 +14,7 @@ function Dashboard() {
       </div>
 
       <section className="coral-dashboard-section coral-dashboard-section--metrics">
-        <div className="coral-dashboard-section__title"><span>01</span><div><h2>Key performance</h2><p>Headline operational indicators</p></div></div>
+        <div className="coral-dashboard-section__title"><span>01</span><div><h2>Key performance</h2><p>Workforce strength, deployment and operational coverage</p></div></div>
         <FirstRow />
       </section>
 
@@ -29,18 +29,16 @@ function Dashboard() {
       </section>
 
       <section className="coral-dashboard-section coral-dashboard-section--metrics">
-        <div className="coral-dashboard-section__title"><span>04</span><div><h2>Delivery performance</h2><p>Infrastructure, resource and revenue outcomes</p></div></div>
+        <div className="coral-dashboard-section__title"><span>04</span><div><h2>Workforce delivery performance</h2><p>Deployment of operators and technical teams across mining districts</p></div></div>
         <WorkCards />
       </section>
 
       <section className="coral-dashboard-section coral-dashboard-section--dark">
-        <div className="coral-dashboard-section__title"><span>05</span><div><h2>District revenue</h2><p>Revenue totals and monthly movement</p></div></div>
+        <div className="coral-dashboard-section__title"><span>05</span><div><h2>District workforce movement</h2><p>Active workforce, monthly change and deployment trend</p></div></div>
         <SalesSummary />
       </section>
 
-      <section className="coral-dashboard-section coral-dashboard-section--dark coral-dashboard-section--links">
-        <QuickLinks />
-      </section>
+
     </div>
   );
 }

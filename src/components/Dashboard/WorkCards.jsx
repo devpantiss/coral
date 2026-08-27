@@ -1,130 +1,108 @@
-import React from 'react';
-import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    ResponsiveContainer,
-} from 'recharts';
+import PropTypes from "prop-types";
+import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis } from "recharts";
+import { FaFire, FaHardHat, FaTools, FaTractor, FaTruck } from "react-icons/fa";
 
-// Sample data for the bar graph (Revenue over the last 12 months)
-const data = [
-    { month: 'J', revenue: 150 },
-    { month: 'F', revenue: 180 },
-    { month: 'M', revenue: 200 },
-    { month: 'A', revenue: 220 },
-    { month: 'M', revenue: 270 },
-    { month: 'J', revenue: 300 },
-    { month: 'J', revenue: 350 },
-    { month: 'A', revenue: 320 },
-    { month: 'S', revenue: 290 },
-    { month: 'O', revenue: 310 },
-    { month: 'N', revenue: 240 },
-    { month: 'D', revenue: 190 },
+const deliveryGroups = [
+  {
+    title: "Dumper / Tipper operations",
+    shortTitle: "Haulage operators",
+    total: 330,
+    share: 39,
+    icon: FaTruck,
+    detail: "330 Dumper / Tipper Operators",
+    data: [48, 42, 62, 58, 30, 39, 27, 24],
+  },
+  {
+    title: "Excavation & loading",
+    shortTitle: "Production operators",
+    total: 281,
+    share: 33,
+    icon: FaTractor,
+    detail: "149 Excavator · 132 Loader",
+    data: [42, 34, 53, 49, 26, 32, 24, 21],
+  },
+  {
+    title: "HEMM maintenance",
+    shortTitle: "Technical support",
+    total: 176,
+    share: 20,
+    icon: FaTools,
+    detail: "104 Mechanics · 72 Electricians",
+    data: [26, 20, 33, 31, 16, 22, 15, 13],
+  },
+  {
+    title: "Mine welding support",
+    shortTitle: "Fabrication workforce",
+    total: 68,
+    share: 8,
+    icon: FaFire,
+    detail: "68 qualified Mine Welders",
+    data: [10, 7, 13, 12, 7, 8, 6, 5],
+  },
 ];
 
-const cardData = [
-    {
-        title: 'Total Toilets Constructed',
-        value: '509',
-        subText: 'Retrofitted',
-        subValue: '330',
-        backgroundColor: 'bg-blue-900',
-        chart: true,
-    },
-    {
-        title: 'Total Water Bodies Rejuvenated',
-        value: '25',
-        subText: 'Water Supplied (MLD)',
-        subValue: '1,900 MLD',
-        backgroundColor: 'bg-blue-800',
-        chart: true,
-    },
-    {
-        title: 'Total Waste Disposed',
-        value: '200 Tons',
-        subText: 'Recycled',
-        subValue: '60 Tons',
-        backgroundColor: 'bg-blue-700',
-        chart: true,
-    },
-    {
-        title: 'Total Wash Products Sold',
-        value: '1200',
-        subText: 'Total Revenue',
-        subValue: '₹ 10,00,000 Cr.',
-        backgroundColor: 'bg-blue-600',
-        chart: true,
-    },
+const districts = [
+  ["Jajapur", "JAJ"], ["Angul", "ANG"], ["Kendujhar", "KDJ"], ["Sundargarh", "SNG"],
+  ["Kalahandi", "KLD"], ["Jharsuguda", "JSG"], ["Kandhamal", "KDM"], ["Nuapada", "NPD"],
 ];
 
-const CustomTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-        return (
-            <div className="bg-white text-black p-2 rounded shadow-lg">
-                <p>{`₹ ${payload[0].value.toFixed(2)} Cr.`}</p>
-            </div>
-        );
-    }
-    return null;
+function DeliveryTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null;
+  const item = payload[0].payload;
+  return <div className="coral-delivery-tooltip"><span>{item.district}</span><strong>{item.workforce} people</strong></div>;
+}
+
+DeliveryTooltip.propTypes = {
+  active: PropTypes.bool,
+  payload: PropTypes.arrayOf(PropTypes.shape({ payload: PropTypes.shape({ district: PropTypes.string, workforce: PropTypes.number }) })),
 };
 
-const yAxisTickFormatter = (value) => `${value} Cr.`;
-
-const WorkCards = () => {
-    return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
-            {cardData.map((card, index) => (
-                <div key={index} className={`p-4 rounded-lg ${card.backgroundColor} text-white`}>
-                    <h3 className="text-lg font-semibold mb-2">{card.title}</h3>
-                    <p className="text-2xl font-bold mb-2">{card.value}</p>
-
-                    {card.subText && (
-                        <>
-                            <hr className="border-white my-2" />
-                            <p className="text-sm text-gray-300">{card.subText}</p>
-                            <p className="font-bold">{card.subValue}</p>
-                        </>
-                    )}
-
-                    {card.chart && (
-                        <div className="mt-4">
-                            <ResponsiveContainer width="100%" height={100}>
-                                <BarChart data={data}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis
-                                        dataKey="month"
-                                        tick={{ fontSize: 12, fill: '#FFF' }} // Adjust font size and color for X-axis
-                                        tickSize={5} // Adjust tick size for better spacing
-                                        tickMargin={5} // Adjust margin below the tick for better alignment
-                                        axisLine={true} // Remove X-axis line for a cleaner look
-                                        tickLine={false} // Remove tick lines
-                                    />
-                                    <YAxis
-                                        tickFormatter={yAxisTickFormatter}
-                                        tick={{
-                                            fontSize: 10,      // Font size increased for better visibility
-                                            fill: '#FFF',       // White color for the labels
-                                            fontWeight: 'bold', // Make the labels bold
-                                        }}
-                                        tickLine={false}      // Remove tick lines for a cleaner look
-                                        axisLine={false}      // Remove the axis line for a clean design
-                                        width={20}
-                                        domain={[0, 400]}
-                                    />
-                                    <Tooltip content={<CustomTooltip />} />
-                                    <Bar dataKey="revenue" fill="#FFA500" />
-                                </BarChart>
-                            </ResponsiveContainer>
-                            <p className="text-xs mt-2">Showing result of 2024</p>
-                        </div>
-                    )}
-                </div>
-            ))}
+function WorkCards() {
+  return (
+    <div className="coral-delivery">
+      <div className="coral-delivery__summary">
+        <div className="coral-delivery__headline">
+          <span className="coral-delivery__summary-icon" aria-hidden="true"><FaHardHat /></span>
+          <div><span>Deployment coverage</span><strong>855</strong><small>skilled personnel across 8 operating districts</small></div>
         </div>
-    );
-};
+        <div className="coral-delivery__readiness">
+          <div><span>Operational readiness</span><strong>100%</strong></div>
+          <div className="coral-delivery__meter"><i><b /></i><span><em>71% operators</em><em>29% technical support</em></span></div>
+        </div>
+      </div>
+
+      <div className="coral-delivery__grid">
+        {deliveryGroups.map((group, groupIndex) => {
+          const Icon = group.icon;
+          const chartData = districts.map(([district, short], index) => ({ district, short, workforce: group.data[index] }));
+          const maximum = Math.max(...group.data);
+          return (
+            <article className="coral-delivery-card" key={group.title}>
+              <header><span><Icon /></span><small>{group.shortTitle}</small><em>0{groupIndex + 1}</em></header>
+              <h3>{group.title}</h3>
+              <div className="coral-delivery-card__metric">
+                <div><strong>{group.total}</strong><small>deployed personnel</small></div>
+                <span className="coral-delivery-card__share" style={{ "--delivery-share": `${group.share * 3.6}deg` }}><b>{group.share}%</b><small>share</small></span>
+              </div>
+              <div className="coral-delivery-card__chart" role="img" aria-label={`${group.title} by district`}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={chartData} margin={{ top: 8, right: 0, bottom: 0, left: 0 }}>
+                    <CartesianGrid vertical={false} stroke="var(--delivery-grid)" strokeDasharray="2 5" />
+                    <XAxis dataKey="short" axisLine={false} tickLine={false} interval={0} tick={{ fill: "var(--delivery-text-muted)", fontSize: 7 }} />
+                    <Tooltip content={<DeliveryTooltip />} cursor={{ fill: "var(--delivery-hover)" }} />
+                    <Bar dataKey="workforce" radius={[3, 3, 0, 0]}>
+                      {chartData.map((item) => <Cell key={item.district} fill={item.workforce === maximum ? "var(--delivery-primary)" : "var(--delivery-bar)"} />)}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <footer><span>{group.detail}</span><strong><i />8/8 districts</strong></footer>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default WorkCards;

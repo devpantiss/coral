@@ -4,74 +4,18 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { FaBolt, FaFire, FaHardHat, FaTractor, FaTruck, FaWrench } from "react-icons/fa";
 import { HiArrowLeft, HiChevronRight } from "react-icons/hi2";
+import { districtBlocks, getBlockSummaries, getBlockWorkforce, workforceDistricts, workforceRoles } from "../../data/workforceData";
 
-const roles = [
-  { key: "dumper", label: "Dumper / Tipper Operator", shortLabel: "Dumper / Tipper", icon: FaTruck },
-  { key: "excavator", label: "Excavator Operator", shortLabel: "Excavator", icon: FaTractor },
-  { key: "loader", label: "Loader Operator", shortLabel: "Loader", icon: FaHardHat },
-  { key: "mechanic", label: "HEMM Mechanic", shortLabel: "HEMM Mechanic", icon: FaWrench },
-  { key: "electrician", label: "HEMM Electrician", shortLabel: "HEMM Electrician", icon: FaBolt },
-  { key: "welder", label: "Mine Welder", shortLabel: "Mine Welder", icon: FaFire },
-];
-
-const districtData = [
-  { name: "Jajapur", dumper: 48, excavator: 22, loader: 20, mechanic: 15, electrician: 11, welder: 10 },
-  { name: "Angul", dumper: 42, excavator: 18, loader: 16, mechanic: 12, electrician: 8, welder: 7 },
-  { name: "Kendujhar", dumper: 62, excavator: 28, loader: 25, mechanic: 19, electrician: 14, welder: 13 },
-  { name: "Sundargarh", dumper: 58, excavator: 26, loader: 23, mechanic: 18, electrician: 13, welder: 12 },
-  { name: "Kalahandi", dumper: 30, excavator: 14, loader: 12, mechanic: 10, electrician: 6, welder: 7 },
-  { name: "Jharsuguda", dumper: 39, excavator: 17, loader: 15, mechanic: 13, electrician: 9, welder: 8 },
-  { name: "Kandhamal", dumper: 27, excavator: 13, loader: 11, mechanic: 9, electrician: 6, welder: 6 },
-  { name: "Nuapada", dumper: 24, excavator: 11, loader: 10, mechanic: 8, electrician: 5, welder: 5 },
-].map((district) => ({ ...district, total: roles.reduce((sum, role) => sum + district[role.key], 0) }));
-
-const districtBlocks = {
-  Jajapur: ["Danagadi", "Sukinda", "Korei"],
-  Angul: ["Chhendipada", "Talcher", "Kaniha"],
-  Kendujhar: ["Joda", "Champua", "Banspal"],
-  Sundargarh: ["Koida", "Lahunipara", "Rajgangpur"],
-  Kalahandi: ["Bhawanipatna", "Junagarh", "Kesinga"],
-  Jharsuguda: ["Lakhanpur", "Kolabira", "Laikera"],
-  Kandhamal: ["Phulbani", "Balliguda", "Raikia"],
-  Nuapada: ["Khariar", "Komna", "Boden"],
+const roleIcons = {
+  dumper: FaTruck,
+  excavator: FaTractor,
+  loader: FaHardHat,
+  mechanic: FaWrench,
+  electrician: FaBolt,
+  welder: FaFire,
 };
-
-const firstNames = ["Ajay", "Anil", "Bikash", "Deepak", "Ganesh", "Kiran", "Manoj", "Prakash", "Rakesh", "Sanjay", "Sunil", "Vijay", "Anita", "Kavita", "Meena", "Priya"];
-const lastNames = ["Behera", "Das", "Jena", "Majhi", "Nayak", "Patra", "Pradhan", "Sahu", "Singh", "Tudu"];
-const employmentStatuses = ["Permanent", "Contract", "Apprentice"];
-
-function blockRoleCount(district, roleKey, blockIndex) {
-  const base = Math.floor(district[roleKey] / 3);
-  return base + (blockIndex < district[roleKey] % 3 ? 1 : 0);
-}
-
-function blockSummary(district, blockName, blockIndex) {
-  const summary = { name: blockName };
-  roles.forEach((role) => { summary[role.key] = blockRoleCount(district, role.key, blockIndex); });
-  summary.total = roles.reduce((sum, role) => sum + summary[role.key], 0);
-  return summary;
-}
-
-function workforceForBlock(district, blockName, blockIndex) {
-  const records = [];
-  roles.forEach((role, roleIndex) => {
-    const count = blockRoleCount(district, role.key, blockIndex);
-    for (let index = 0; index < count; index += 1) {
-      const seed = district.name.length * 7 + blockName.length * 3 + roleIndex * 11 + index;
-      const gender = seed % 5 === 0 ? "Female" : "Male";
-      records.push({
-        id: `${district.name}-${blockName}-${role.key}-${index}`,
-        name: `${firstNames[seed % firstNames.length]} ${lastNames[(seed * 3) % lastNames.length]}`,
-        jobRole: role.label,
-        age: 22 + (seed % 35),
-        gender,
-        employmentStatus: employmentStatuses[seed % employmentStatuses.length],
-        roleKey: role.key,
-      });
-    }
-  });
-  return records;
-}
+const roles = workforceRoles.map((role) => ({ ...role, icon: roleIcons[role.key] }));
+const districtData = workforceDistricts;
 
 function geometryCenter(geometry) {
   const points = [];
@@ -130,9 +74,9 @@ function WorkersMap() {
   };
   const hovered = districtData.find((district) => district.name === hoveredDistrict);
   const selectedDistrictData = districtData.find((district) => district.name === selectedDistrict);
-  const blockRows = selectedDistrictData ? districtBlocks[selectedDistrict].map((block, index) => blockSummary(selectedDistrictData, block, index)) : [];
+  const blockRows = selectedDistrictData ? getBlockSummaries(selectedDistrictData) : [];
   const selectedBlockIndex = selectedDistrict ? districtBlocks[selectedDistrict].indexOf(selectedBlock) : -1;
-  const workforceRecords = selectedDistrictData && selectedBlockIndex >= 0 ? workforceForBlock(selectedDistrictData, selectedBlock, selectedBlockIndex).filter((record) => selectedRole === "total" || record.roleKey === selectedRole) : [];
+  const workforceRecords = selectedDistrictData && selectedBlockIndex >= 0 ? getBlockWorkforce(selectedDistrictData, selectedBlock).filter((record) => selectedRole === "total" || record.roleKey === selectedRole) : [];
 
   const mapStyle = (feature) => {
     const value = districtValue(feature.properties.Dist_Name);
