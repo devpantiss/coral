@@ -4,18 +4,6 @@ import { HiArrowUpRight, HiOutlineArrowPath, HiOutlineMapPin } from "react-icons
 function EcoMineTourism() {
   return (
     <section className="coral-eco-tourism" aria-labelledby="eco-mine-tourism-title">
-      <video
-        className="coral-eco-tourism__video"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        poster="/coral/eco-mine-tourism-poster.jpg"
-        aria-hidden="true"
-      >
-        <source src="/coral/eco-mine-tourism.mp4" type="video/mp4" />
-      </video>
       <div className="coral-eco-tourism__shade" />
 
       <div className="coral-shell coral-eco-tourism__content">

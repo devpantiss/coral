@@ -139,3 +139,5 @@
 /* Keep the fixed Eco-Mine video and its readability layer in a local stack. */
 .coral-eco-tourism__video{z-index:0}.coral-eco-tourism__shade{z-index:1}
 .coral-eco-tourism{background-image:url('/coral/eco-mine-tourism-poster.jpg')}
+.coral-eco-tourism{background-attachment:fixed}
+@media(max-width:900px){.coral-eco-tourism{background-attachment:scroll}}
