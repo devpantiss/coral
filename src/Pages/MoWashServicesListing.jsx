@@ -1,143 +1,29 @@
-import React from "react";
-import {
-  FaToilet,
-  FaTruck,
-  FaRecycle,
-  FaWater,
-  FaLeaf,
-  FaSolarPanel,
-  FaBuilding,
-} from "react-icons/fa";
+import { HiOutlineArrowPath, HiOutlineMap, HiOutlineTruck, HiOutlineUserGroup } from "react-icons/hi2";
+import { activeProjectCount, miningCapabilities, totalWorksCompleted } from "../data/miningOperationsData";
 
-// Mock data for services
-const serviceData = [
-  {
-    id: 1,
-    name: "Toilet Mason, Electrician & Plumbers",
-    users: 180,
-    serviceProviders: 55,
-    jobsCompleted: 450,
-    revenue: 200000,
-    icon: <FaToilet />,
-  },
-  {
-    id: 2,
-    name: "Cesspool Vehicle Service Providers",
-    users: 150,
-    serviceProviders: 40,
-    jobsCompleted: 300,
-    revenue: 150000,
-    icon: <FaTruck />,
-  },
-  {
-    id: 3,
-    name: "Waste Collection, Segregation & Processing",
-    users: 250,
-    serviceProviders: 70,
-    jobsCompleted: 600,
-    revenue: 250000,
-    icon: <FaRecycle />,
-  },
-  {
-    id: 4,
-    name: "Nal Jal Mitra for Drinking Water",
-    users: 180,
-    serviceProviders: 45,
-    jobsCompleted: 500,
-    revenue: 180000,
-    icon: <FaWater />,
-  },
-  {
-    id: 5,
-    name: "Solid & Liquid Waste Treatment",
-    users: 150,
-    serviceProviders: 60,
-    jobsCompleted: 550,
-    revenue: 200000,
-    icon: <FaLeaf />,
-  },
-  {
-    id: 6,
-    name: "Solar Plant & Water Pump, EPC, O&M",
-    users: 140,
-    serviceProviders: 35,
-    jobsCompleted: 300,
-    revenue: 100000,
-    icon: <FaSolarPanel />,
-  },
-  {
-    id: 7,
-    name: "Pond Restoration & Rejuvenation",
-    users: 80,
-    serviceProviders: 20,
-    jobsCompleted: 150,
-    revenue: 50000,
-    icon: <FaWater />,
-  },
-  {
-    id: 8,
-    name: "Institutional Facility Management",
-    users: 70,
-    serviceProviders: 25,
-    jobsCompleted: 150,
-    revenue: 70000,
-    icon: <FaBuilding />,
-  },
-];
+const capabilityIcons = [HiOutlineMap, HiOutlineUserGroup, HiOutlineTruck, HiOutlineArrowPath];
 
-
-const MoWashServicesListing = () => {
+function MoWashServicesListing() {
   return (
-    <div className="p-6 bg-transparent ring-2 ring-white rounded-md text-white min-h-screen">
-      <h2 className="text-2xl font-semibold mb-8 text-center">Our Services</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {serviceData.map((service) => (
-          <div
-            key={service.id}
-            className="bg-blue-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
-          >
-            <div className="flex flex-col lg:flex-row text-center items-center mb-4">
-              <div className="text-4xl mr-4 text-white">{service.icon}</div>
-              <h3 className="text-2xl font-bold">{service.name}</h3>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <div>
-                <p className="flex text-center flex-col">
-                  <span className="text-2xl">
-                    {service.users.toLocaleString()}
-                  </span>
-                  <span className="font-semibold">Users</span>
-                </p>
-              </div>
-              <div>
-                <p className="flex text-center flex-col">
-                  <span className="text-2xl">{service.serviceProviders} </span>
-                  <span className="font-semibold">Service Providers</span>{" "}
-                </p>
-              </div>
-              <div>
-                <p className="flex text-center flex-col">
-                  <span className="text-2xl">
-                    {" "}
-                    {service.jobsCompleted.toLocaleString()}
-                  </span>
-                  <span className="font-semibold">Jobs Completed</span>
-                </p>
-              </div>
-              <div>
-                <p className="flex text-center flex-col">
-                  <span className="text-2xl">
-                    ₹{service.revenue.toLocaleString()}
-                  </span>
-                  <span className="font-semibold">Revenue Generated</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className="coral-capability-directory">
+      <header className="coral-directory__header">
+        <div><span>What we do · integrated capability</span><h1>Mining services</h1><p>A delivery view of the completed works, live projects, and operational progress across the full mining lifecycle.</p></div>
+        <div className="coral-directory__live"><i /> Integrated delivery <small>4 core capabilities</small></div>
+      </header>
+      <section className="coral-capability-directory__summary" aria-label="Mining service summary">
+        <article><strong>{miningCapabilities.length}</strong><span>Core capabilities</span></article><article><strong>{totalWorksCompleted.toLocaleString()}</strong><span>Works completed</span></article><article><strong>{activeProjectCount}</strong><span>Active projects</span></article><article><strong>86%</strong><span>Portfolio completion</span></article>
+      </section>
+      <section className="coral-capability-directory__panel" aria-labelledby="capability-register-title">
+        <div className="coral-directory__panel-heading"><div><span>Capability register</span><h2 id="capability-register-title">Our expertise</h2></div><p>The same focus areas featured in the public “What We Do” section, structured for operational use.</p></div>
+        <div className="coral-capability-directory__grid">
+          {miningCapabilities.map((capability, index) => {
+            const Icon = capabilityIcons[index];
+            return <article className="coral-capability-directory__card" key={capability.title}><header><span>{capability.number}</span><Icon aria-hidden="true" /></header><h3>{capability.title}</h3><p>{capability.description}</p><div className="coral-capability-directory__work"><strong>{capability.worksCompleted}</strong><span>{capability.unit}</span><small>{capability.activeProjects} active projects · {capability.completionRate}% complete</small></div><ul>{capability.serviceLines.map((service) => <li key={service}>{service}</li>)}</ul><footer><span>Lifecycle capability</span><strong>Active</strong></footer></article>;
+          })}
+        </div>
+      </section>
     </div>
   );
-};
+}
 
 export default MoWashServicesListing;

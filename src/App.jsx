@@ -7,7 +7,6 @@ import DistrictDashboard from "./Pages/DistrictDashboard";
 import MoWashOnboardingCenters from "./Pages/MowashOnboardingCenters";
 import MoWashServiceProvidersList from "./Pages/MoWashServiceProvidersList";
 import MoWashServicesListing from "./Pages/MoWashServicesListing";
-import MoWashWelfareKendra from "./Pages/MoWashWelfareKendra";
 import MoWashDetails from "./Pages/MoWashDetails";
 import HomePage from "./Pages/HomePage";
 import AboutPage from "./Pages/AboutPage";
@@ -50,7 +49,6 @@ function App() {
               element={<MoWashServiceProvidersList />}
             />
             <Route path="total-services" element={<MoWashServicesListing />} />
-            <Route path="welfare-kendra" element={<MoWashWelfareKendra />} />
             <Route path="about" element={<MoWashDetails />} />
           </Route>
         </Routes>

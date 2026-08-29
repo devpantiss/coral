@@ -81,10 +81,10 @@ const Summit = () => {
             </p>
 
             <Link
-              to="/dashboard/welfare-kendra"
+              to="/dashboard/onboarding-centers"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border-2 border-white/80 hover:border-blue-400 text-white font-medium text-sm transition-all duration-300 hover:bg-blue-500/20 hover:scale-105 group"
             >
-              Explore Fellowship
+              Explore Project Hubs
               <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

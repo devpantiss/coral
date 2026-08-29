@@ -1,171 +1,31 @@
-import React, { useState, useEffect } from "react";
+import { MdGroups, MdLocationOn, MdOutlineBusinessCenter, MdVerified } from "react-icons/md";
+import DirectoryPage from "../components/Dashboard/DirectoryPage";
+import { miningCapabilities, totalWorksCompleted } from "../data/miningOperationsData";
 
-const fetchData = () => {
-    // Simulating a call to fetch real-time data, replace with an actual API call
-    return Array.from({ length: 100 }, (_, index) => ({
-        id: index + 1,
-        district: `District ${index % 10}`,
-        block: `Block ${index % 5}`,
-        centerName: `Onboarding Center ${index + 1}`,
-        address: `Street ${index + 1}, Area ${index % 20}`,
-        providersOnboarded: Math.floor(Math.random() * 100),
-        contactPerson: `Person ${index + 1}`,
-        contactNumber: `987654${1000 + index}`,
-    }));
-};
+const districts = [
+  ["Angul", ["Talcher", "Kaniha", "Chhendipada"]], ["Cuttack", ["Niali", "Banki", "Tigiria"]], ["Bhadrak", ["Basudevpur", "Chandabali", "Tihidi"]], ["Jajpur", ["Rasulpur", "Korei", "Danagadi"]], ["Kalahandi", ["Bhawanipatna", "Kesinga", "Junagarh"]],
+  ["Kandhamal", ["Phulbani", "Balliguda", "Raikia"]], ["Koraput", ["Jeypore", "Borigumma", "Laxmipur"]], ["Nuapada", ["Khariar", "Komna", "Boden"]], ["Sundargarh", ["Rajgangpur", "Koida", "Lahunipara"]], ["Puri", ["Pipili", "Nimapara", "Satyabadi"]],
+];
+const coordinators = ["Ananya Das", "Rakesh Behera", "Priya Sahu", "Sanjay Nayak", "Mitali Jena", "Amit Patra"];
 
-const OnboardingCentersTable = () => {
-    const [data, setData] = useState([]);
-    const [searchText, setSearchText] = useState("");
-    const [districtFilter, setDistrictFilter] = useState("");
-    const [blockFilter, setBlockFilter] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 20;
+const onboardingCenters = districts.flatMap(([district, blocks], districtIndex) => Array.from({ length: 10 }, (_, index) => {
+  const block = blocks[index % blocks.length];
+  const centerNumber = districtIndex * 10 + index + 1;
+  const capability = miningCapabilities[(districtIndex + index) % miningCapabilities.length];
+  const worksDone = 3 + ((districtIndex * 5 + index * 3) % 17);
+  return { id: `center-${centerNumber}`, district, block, center: `${block} Project Liaison Hub`, programme: capability.title, track: capability.serviceLines[index % capability.serviceLines.length], worksDone, providers: 14 + ((districtIndex * 9 + index * 7) % 48), coordinator: coordinators[(districtIndex + index) % coordinators.length], status: index % 9 === 0 ? "Launching" : "Active" };
+}));
 
-    useEffect(() => {
-        // Simulate fetching data
-        const fetchDataAsync = async () => {
-            const result = fetchData();
-            setData(result);
-        };
-        fetchDataAsync();
-    }, []);
+const columns = [
+  { key: "district", label: "District" }, { key: "block", label: "Block / ULB" }, { key: "center", label: "Project onboarding hub" }, { key: "programme", label: "Lifecycle capability" }, { key: "track", label: "Onboarding focus" }, { key: "worksDone", label: "Works done", align: "center" }, { key: "status", label: "Status", kind: "status" },
+];
 
-    const filteredData = data
-        .filter((item) =>
-            item.centerName.toLowerCase().includes(searchText.toLowerCase())
-        )
-        .filter(
-            (item) =>
-                (!districtFilter || item.district === districtFilter) &&
-                (!blockFilter || item.block === blockFilter)
-        );
+function MowashOnboardingCenters() {
+  const activeCenters = onboardingCenters.filter((center) => center.status === "Active").length;
+  const hubWorks = onboardingCenters.reduce((total, center) => total + center.worksDone, 0);
+  return <DirectoryPage eyebrow="What we do · project readiness" title="Project onboarding hubs" description="Local project touchpoints that connect land, workforce, equipment, and responsible mine-transition activities." items={onboardingCenters} columns={columns} entityLabel="hubs" searchPlaceholder="Search a hub, capability, or district" metrics={[
+    { icon: MdOutlineBusinessCenter, label: "Project hubs", value: onboardingCenters.length, detail: "Across 10 districts" }, { icon: MdLocationOn, label: "Active coverage", value: `${activeCenters}%`, detail: "Hubs currently operating" }, { icon: MdGroups, label: "Hub works done", value: hubWorks.toLocaleString(), detail: "Local delivery activities" }, { icon: MdVerified, label: "Portfolio works", value: totalWorksCompleted.toLocaleString(), detail: "Across all capabilities" },
+  ]} />;
+}
 
-    const paginatedData = filteredData.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
-
-    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-    return (
-        <div className="bg-transparent ring-2 ring-white text-white p-4 rounded-lg">
-            {/* Filters */}
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex space-x-2">
-                    <input
-                        type="text"
-                        placeholder="Name / Address / PIN"
-                        className="p-2 bg-blue-800 text-white rounded"
-                        value={searchText}
-                        onChange={(e) => setSearchText(e.target.value)}
-                    />
-                    <select
-                        className="p-2 bg-blue-800 text-white rounded"
-                        value={districtFilter}
-                        onChange={(e) => setDistrictFilter(e.target.value)}
-                    >
-                        <option value="">Select District</option>
-                        {/* Populate districts */}
-                    </select>
-                    <select
-                        className="p-2 bg-blue-800 text-white rounded"
-                        value={blockFilter}
-                        onChange={(e) => setBlockFilter(e.target.value)}
-                    >
-                        <option value="">Select Block/ULB</option>
-                        {/* Populate blocks */}
-                    </select>
-                    <button className="p-2 bg-blue-600 rounded">Search</button>
-                </div>
-            </div>
-
-            {/* Results Info */}
-            <p className="mb-4">
-                Showing {itemsPerPage * (currentPage - 1) + 1}-
-                {Math.min(itemsPerPage * currentPage, filteredData.length)} of{" "}
-                {filteredData.length} Results
-            </p>
-
-            {/* Responsive Table */}
-            <div className="overflow-auto">
-                <table className="min-w-full text-sm bg-blue-800 rounded-lg">
-                    <thead className="bg-blue-700">
-                        <tr>
-                            <th className="px-4 py-2 text-left">Sl#</th>
-                            <th className="px-4 py-2 text-left">District</th>
-                            <th className="px-4 py-2 text-left">Block/ULB</th>
-                            <th className="px-4 py-2 text-left">Center Name</th>
-                            <th className="px-4 py-2 text-left">Address</th>
-                            <th className="px-4 py-2 text-center">Providers Onboarded</th>
-                            <th className="px-4 py-2 text-left">Contact Person</th>
-                            <th className="px-4 py-2 text-center">Contact No.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {paginatedData.map((item, index) => (
-                            <tr
-                                key={item.id}
-                                className="border-b border-blue-600 hover:bg-blue-700"
-                            >
-                                <td className="px-4 py-2">{index + 1 + (currentPage - 1) * itemsPerPage}</td>
-                                <td className="px-4 py-2">{item.district}</td>
-                                <td className="px-4 py-2">{item.block}</td>
-                                <td className="px-4 py-2">{item.centerName}</td>
-                                <td className="px-4 py-2">{item.address}</td>
-                                <td className="px-4 py-2 text-center">{item.providersOnboarded}</td>
-                                <td className="px-4 py-2">{item.contactPerson}</td>
-                                <td className="px-4 py-2 text-center">{item.contactNumber}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            {/* Responsive Pagination */}
-            <div className="overflow-auto mt-4 flex justify-end space-x-1">
-                <button
-                    onClick={() => setCurrentPage(1)}
-                    className={`px-3 py-1 rounded ${currentPage === 1 ? "bg-blue-600" : "bg-blue-800"}`}
-                    disabled={currentPage === 1}
-                >
-                    &lt;&lt;
-                </button>
-                <button
-                    onClick={() => setCurrentPage(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="px-3 py-1 bg-blue-800 rounded"
-                >
-                    &lt;
-                </button>
-                {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => setCurrentPage(index + 1)}
-                        className={`px-3 py-1 rounded ${
-                            currentPage === index + 1 ? "bg-blue-600" : "bg-blue-800"
-                        }`}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
-                <button
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="px-3 py-1 bg-blue-800 rounded"
-                >
-                    &gt;
-                </button>
-                <button
-                    onClick={() => setCurrentPage(totalPages)}
-                    className={`px-3 py-1 rounded ${currentPage === totalPages ? "bg-blue-600" : "bg-blue-800"}`}
-                    disabled={currentPage === totalPages}
-                >
-                    &gt;&gt;
-                </button>
-            </div>
-        </div>
-    );
-};
-
-export default OnboardingCentersTable;
+export default MowashOnboardingCenters;

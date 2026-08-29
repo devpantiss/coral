@@ -37,7 +37,7 @@ function Navbar() {
 
         <div className="coral-legacy-popover">
           <button className="coral-legacy-icon-button" type="button" aria-label="Notifications" onClick={() => { setNotificationsOpen(!notificationsOpen); setLocationOpen(false); setProfileOpen(false); }}><MdNotificationsNone /><i /></button>
-          {notificationsOpen && <div className="coral-legacy-menu coral-legacy-menu--notifications"><div><strong>Notifications</strong><MdClose onClick={() => setNotificationsOpen(false)} /></div><p>New onboarding center added in Puri<small>2m ago</small></p><p>Service provider report submitted<small>1h ago</small></p><p>Welfare Kendra data updated<small>3h ago</small></p></div>}
+          {notificationsOpen && <div className="coral-legacy-menu coral-legacy-menu--notifications"><div><strong>Notifications</strong><MdClose onClick={() => setNotificationsOpen(false)} /></div><p>New project hub added in Puri<small>2m ago</small></p><p>Mining workforce report submitted<small>1h ago</small></p><p>Equipment readiness data updated<small>3h ago</small></p></div>}
         </div>
 
         <div className="coral-legacy-popover coral-legacy-profile">

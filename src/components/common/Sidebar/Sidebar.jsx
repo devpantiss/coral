@@ -6,16 +6,14 @@ import {
   MdLocationCity,
   MdMiscellaneousServices,
   MdOutlineBusinessCenter,
-  MdVolunteerActivism,
 } from "react-icons/md";
 
 const navItems = [
   { to: "/dashboard", icon: MdDashboard, label: "Dashboard", match: ["/dashboard"], exact: true },
   { to: "/dashboard/page1", icon: MdLocationCity, label: "Dist. Dashboard", match: ["/dashboard/page1"] },
-  { to: "/dashboard/onboarding-centers", icon: MdOutlineBusinessCenter, label: "Onboarding Centers", match: ["/dashboard/onboarding-centers"] },
-  { to: "/dashboard/total-service-providers", icon: MdEngineering, label: "MoWash Engineers", match: ["/dashboard/total-service-providers"] },
-  { to: "/dashboard/total-services", icon: MdMiscellaneousServices, label: "Services", match: ["/dashboard/total-services"] },
-  { to: "/dashboard/welfare-kendra", icon: MdVolunteerActivism, label: "Welfare Kendra", match: ["/dashboard/welfare-kendra"] },
+  { to: "/dashboard/onboarding-centers", icon: MdOutlineBusinessCenter, label: "Project Onboarding", match: ["/dashboard/onboarding-centers"] },
+  { to: "/dashboard/total-service-providers", icon: MdEngineering, label: "Mining Workforce", match: ["/dashboard/total-service-providers"] },
+  { to: "/dashboard/total-services", icon: MdMiscellaneousServices, label: "Mining Services", match: ["/dashboard/total-services"] },
   { to: "/dashboard/about", icon: MdInfoOutline, label: "Info", match: ["/dashboard/about"] },
 ];
 

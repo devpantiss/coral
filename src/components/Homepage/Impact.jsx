@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import {
   HiArrowRight,
+  HiArrowUpRight,
   HiOutlineArrowTrendingUp,
   HiOutlineGlobeAsiaAustralia,
   HiOutlineShieldCheck,
@@ -59,6 +60,13 @@ function Impact() {
           </p>
         </div>
 
+        <div className="coral-impact-snapshot" aria-label="Impact framework">
+          <div><strong>04</strong><span>Outcome pillars</span><small>One connected framework</small></div>
+          <div><strong>Every shift</strong><span>Safety cadence</span><small>Controls kept visible</small></div>
+          <div><strong>Life of mine</strong><span>Rehabilitation horizon</span><small>Designed from day one</small></div>
+          <div><strong>Pit → Port</strong><span>System view</span><small>Performance end to end</small></div>
+        </div>
+
         <div className="coral-impact__bento">
           <article className="coral-impact-feature coral-impact-feature--people">
             <img src="/coral/impact-safety-team.jpg" alt="Indian mine operations team reviewing field data at a safe observation point" loading="lazy" />
@@ -68,6 +76,7 @@ function Impact() {
               <h3>Every person home safe.<br />Every single day.</h3>
               <p>Safe production starts with informed teams, engineered controls and the confidence to stop and correct.</p>
             </div>
+            <div className="coral-impact-feature__signal"><i /> Field assurance active</div>
             <div className="coral-impact-feature__index">01 / 04</div>
           </article>
 
@@ -104,6 +113,14 @@ function Impact() {
             <div className="coral-dashboard-preview" aria-label="Illustrative operations dashboard preview">
               <div className="coral-dashboard-preview__header"><span>Coral command view</span><small>Live overview</small></div>
               <div className="coral-dashboard-preview__metric"><small>Operating pulse</small><strong>On plan</strong><span>Integrated shift performance</span></div>
+              <div className="coral-dashboard-preview__trend" aria-hidden="true">
+                <svg viewBox="0 0 260 72" preserveAspectRatio="none">
+                  <defs><linearGradient id="impactTrendFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#ef6a52" stopOpacity=".32" /><stop offset="1" stopColor="#ef6a52" stopOpacity="0" /></linearGradient></defs>
+                  <path d="M0 60 C30 57 42 42 67 46 S101 61 126 40 S162 25 188 31 S225 17 260 12 L260 72 L0 72 Z" fill="url(#impactTrendFill)" />
+                  <path d="M0 60 C30 57 42 42 67 46 S101 61 126 40 S162 25 188 31 S225 17 260 12" fill="none" stroke="#ff8a72" strokeWidth="2" />
+                </svg>
+                <span>Shift start</span><span>Current</span>
+              </div>
               <div className="coral-dashboard-preview__rows">
                 {dashboardRows.map((row) => (
                   <div className="coral-dashboard-row" key={row.label}>
@@ -117,7 +134,10 @@ function Impact() {
           </article>
         </div>
 
-        <p className="coral-impact__note">Illustrative dashboard indicators shown. Verified project metrics can be connected to the live dashboard.</p>
+        <div className="coral-impact__footer">
+          <p className="coral-impact__note">Illustrative dashboard indicators shown. Verified project metrics can be connected to the live dashboard.</p>
+          <Link to="/sustainability">Explore our sustainability approach <HiArrowUpRight aria-hidden="true" /></Link>
+        </div>
       </div>
     </section>
   );

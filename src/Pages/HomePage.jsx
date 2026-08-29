@@ -4,6 +4,7 @@ import Impact from "../components/Homepage/Impact";
 import WhatWeDoSlider from "../components/Homepage/WhatWeDoSlider";
 import EcoMineTourism from "../components/Homepage/EcoMineTourism";
 import OperationalAreasMap from "../components/Homepage/OperationalAreasMap";
+import ImpactPrelude from "../components/Homepage/ImpactPrelude";
 import PublicHeader from "../components/common/PublicSite/PublicHeader";
 import PublicFooter from "../components/common/PublicSite/PublicFooter";
 
@@ -27,6 +28,7 @@ function HomePage() {
     <section className="coral-proof" aria-label="Our operating principles"><div className="coral-shell coral-proof__grid"><div><strong>360°</strong><span>Integrated capability</span></div><div><strong>24/7</strong><span>Operational discipline</span></div><div><strong>Pit → Port</strong><span>Connected delivery</span></div><div><strong>Zero compromise</strong><span>On safety &amp; integrity</span></div></div></section>
     <EcoMineTourism />
     <OperationalAreasMap />
+    <ImpactPrelude />
     <Impact />
     <section className="coral-model" id="model"><div className="coral-model__image-wrap"><img src="/coral/coral-port-logistics.png" alt="Covered conveyor and bulk carrier at a mineral port" loading="lazy" /><div className="coral-model__badge"><HiMapPin /><span>Mine to market<br /><strong>One connected system</strong></span></div></div><div className="coral-model__content"><p className="coral-eyebrow coral-eyebrow--light"><span /> Our operating model</p><h2>Connected from<br />resource to customer.</h2><p>Fewer handoffs. Better visibility. Stronger outcomes. Our integrated model connects technical mine planning with production, evacuation and port delivery.</p><ol>{operatingSteps.map(([title, text], index) => <li key={title}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{title}</strong><small>{text}</small></div></li>)}</ol></div></section>
     <section className="coral-responsibility" id="responsibility"><div className="coral-shell"><div className="coral-section-head coral-section-head--center"><div><p className="coral-eyebrow"><span /> Responsible by design</p><h2>Performance that<br />outlives the mine.</h2></div><p>For us, responsible mining is an operating discipline—measured in safer workplaces, resilient ecosystems and stronger communities.</p></div><div className="coral-commitment-grid">{commitments.map((item) => { const Icon = item.icon; return <article key={item.title}><Icon /><h3>{item.title}</h3><p>{item.text}</p></article>; })}</div></div></section>
