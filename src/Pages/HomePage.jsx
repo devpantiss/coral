@@ -7,6 +7,7 @@ import OperationalAreasMap from "../components/Homepage/OperationalAreasMap";
 import ImpactPrelude from "../components/Homepage/ImpactPrelude";
 import PublicHeader from "../components/common/PublicSite/PublicHeader";
 import PublicFooter from "../components/common/PublicSite/PublicFooter";
+import Solutions from "../components/Homepage/Solutions";
 
 const operatingSteps = [
   ["Discover", "Resource evaluation & modelling"], ["Develop", "Planning & mine infrastructure"], ["Operate", "Safe, efficient production"], ["Move", "Integrated multimodal logistics"], ["Deliver", "Reliable port-to-customer supply"],
@@ -25,6 +26,7 @@ function Hero() {
 function HomePage() {
   return <main className="coral-site"><Hero />
     <WhatWeDoSlider />
+    <Solutions />
     <section className="coral-proof" aria-label="Our operating principles"><div className="coral-shell coral-proof__grid"><div><strong>360°</strong><span>Integrated capability</span></div><div><strong>24/7</strong><span>Operational discipline</span></div><div><strong>Pit → Port</strong><span>Connected delivery</span></div><div><strong>Zero compromise</strong><span>On safety &amp; integrity</span></div></div></section>
     <EcoMineTourism />
     <OperationalAreasMap />
