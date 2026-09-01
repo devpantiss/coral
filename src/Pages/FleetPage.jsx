@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  HiArrowDown,
   HiArrowRight,
   HiCheck,
   HiChevronLeft,
@@ -101,15 +100,12 @@ function FleetPage() {
       <video className="coral-fleet-hero__video" autoPlay muted loop playsInline poster="/coral/coral-mine-hero.png" aria-label="Coral mining fleet operating at an open-cast mine">
         <source src="/fleet_hero.mp4" type="video/mp4" />
       </video>
-      <div className="coral-fleet-hero__shade" aria-hidden="true" />
       <div className="coral-fleet-hero__frame" aria-hidden="true" />
       <PublicHeader overlay />
 
       <div className="coral-shell coral-fleet-hero__content">
         <p className="coral-fleet-hero__eyebrow"><span>Coral operating fleet</span><i /><span>Mine-ready systems</span></p>
         <h1 id="fleet-hero-title">Built to move<br /><em>the earth.</em></h1>
-        <p className="coral-fleet-hero__lede">Production and support fleets engineered around the mine plan, maintained for availability and managed for every productive tonne.</p>
-        <a className="coral-fleet-hero__explore" href="#fleet-content"><span>Explore the fleet</span><HiArrowDown aria-hidden="true" /></a>
       </div>
 
       <div className="coral-fleet-hero__rail" aria-label="Fleet operating model">
