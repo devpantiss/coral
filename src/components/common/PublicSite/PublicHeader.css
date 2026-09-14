@@ -1,0 +1,45 @@
+.coral-header.coral-header--dual {
+  --header-surface: var(--paper);
+  --header-text: var(--ink);
+  --header-line: var(--line);
+  position: absolute; inset: 0 0 auto; width: 100%; height: auto; margin: 0;
+  display: grid; grid-template-columns: auto 1fr; grid-template-rows: 38px 88px; gap: 0 48px;
+  padding: 0 max(24px, calc((100vw - 1180px) / 2));
+  background: var(--header-surface); color: var(--header-text); border: 0; border-bottom: 1px solid var(--header-line);
+  border-radius: 0; backdrop-filter: none; box-shadow: none;
+}
+.coral-header.coral-header--dual::before { content: ""; position: absolute; inset: 0 0 auto; height: 38px; background: var(--ink); z-index: -1; }
+.coral-header.coral-header--dual { isolation: isolate; }
+.coral-header.coral-header--dual.is-scrolled { position: fixed; background: var(--paper); box-shadow: 0 6px 20px color-mix(in srgb, var(--ink) 7%, transparent); }
+.coral-header--dual .coral-brand { grid-row: 2; grid-column: 1; align-self: center; color: var(--ink); }
+.coral-header__navigation { display: contents; }
+.coral-header__secondary { grid-row: 1; grid-column: 1 / -1; display: flex; align-items: center; justify-content: flex-end; gap: 25px; color: var(--paper); }
+.coral-header__secondary::before { content: "Mines & Shipping / India"; margin-right: auto; font-size: 9px; letter-spacing: .12em; opacity: .65; }
+.coral-header__secondary a { display: inline-flex; align-items: center; min-height: 38px; font-size: 10px; opacity: .8; }
+.coral-header__secondary a:last-child { padding-inline: 18px; background: var(--coral); color: var(--ink); opacity: 1; font-weight: 600; }
+.coral-header__secondary a:hover, .coral-header__secondary a.is-active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+.coral-header__main { grid-row: 2; grid-column: 2; display: flex; align-items: stretch; justify-content: flex-end; gap: 34px; }
+.coral-header__main a { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0; font-size: 13px; font-weight: 500; white-space: nowrap; }
+.coral-header__main a::after { content: ""; position: absolute; inset: auto 0 0; height: 3px; background: var(--coral); transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
+.coral-header__main a:hover::after, .coral-header__main a.is-active::after { transform: scaleX(1); }
+.coral-header__main a.is-active { color: var(--coral-deep); }
+.coral-header__navigation a:focus-visible, .coral-header--dual .coral-menu:focus-visible { outline: 2px solid var(--coral-deep); outline-offset: -3px; }
+.coral-inner-page .coral-inner-hero { padding-top: 126px; }
+@media (max-width: 1050px) { .coral-header.coral-header--dual { column-gap: 24px; } .coral-header__main { gap: 24px; } }
+@media (max-width: 900px) {
+  .coral-header.coral-header--dual { grid-template-columns: 1fr auto; grid-template-rows: 78px; padding-inline: 20px; }
+  .coral-header.coral-header--dual::before { display: none; }
+  .coral-header--dual .coral-brand { grid-row: 1; }
+  .coral-header--dual .coral-menu { display: block; grid-row: 1; grid-column: 2; color: var(--ink); }
+  .coral-header__navigation { display: none; }
+  .coral-header__navigation.is-open { display: flex; flex-direction: column; grid-row: 2; grid-column: 1 / -1; max-height: calc(100dvh - 78px); overflow-y: auto; padding-bottom: 20px; }
+  .coral-header__main { flex-direction: column; align-items: stretch; gap: 0; padding-block: 8px 18px; border-top: 1px solid var(--line); }
+  .coral-header__main a { min-height: 50px; font-size: 17px; }
+  .coral-header__main a::after { inset: auto auto 8px 0; width: 24px; height: 2px; }
+  .coral-header__secondary { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; color: var(--ink); padding-top: 14px; border-top: 1px solid var(--line); }
+  .coral-header__secondary::before { display: none; }
+  .coral-header__secondary a { min-height: 44px; font-size: 13px; }
+  .coral-header__secondary a:last-child { padding-inline: 12px; justify-content: center; margin-top: 8px; }
+  .coral-inner-page .coral-inner-hero { padding-top: 78px; }
+}
+@media (prefers-reduced-motion: reduce) { .coral-header__main a::after { transition: none; } }

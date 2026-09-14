@@ -21,7 +21,7 @@ function CapabilitiesPage() {
     return () => motionPreference.removeEventListener("change", updatePreference);
   }, []);
 
-  return <InnerPage eyebrow="Capabilities" title="One operating system." accent="Every stage of mining." intro="Integrated expertise spanning land, people, equipment, production, processing, logistics and responsible closure." image="/coral/coral-mine-hero.png" imageAlt="Terraced open-cast mine at sunrise">
+  return <InnerPage video="/hero_bg.mp4" eyebrow="What We Do" title="One operating system." accent="Every stage of mining." intro="Integrated expertise spanning land, people, equipment, production, processing, logistics and responsible closure." image="/coral/coral-mine-hero.png" imageAlt="Terraced open-cast mine at sunrise">
     <section className="coral-page-intro coral-shell coral-capabilities-intro"><div><p className="coral-eyebrow"><span /> Integrated execution</p><h2>Fewer handoffs. Clearer ownership.</h2></div><div><p className="coral-page-lead">Coral aligns the complete operating chain behind one plan and one performance framework.</p><p>Engage us for a focused specialist mandate or connect our capabilities into a complete mine-to-market delivery system.</p></div></section>
 
     <section className="coral-capabilities-expertise" aria-labelledby="expertise-title"><div className="coral-shell">

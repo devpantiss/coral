@@ -1,0 +1,30 @@
+.coral-expertise-tabs { display: flex; width: fit-content; gap: 6px; margin: -18px 0 30px; padding: 5px; border: 1px solid var(--line); border-radius: 8px; background: var(--sand); }
+.coral-expertise-tabs button { display: flex; align-items: center; justify-content: space-between; gap: 36px; min-width: 152px; min-height: 48px; padding: 12px 18px; border: 0; border-radius: 5px; background: transparent; color: var(--muted); font-size: 13px; cursor: pointer; transition: color .2s, background .2s; }
+.coral-expertise-tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+.coral-expertise-tabs button span { font-size: 10px; opacity: .65; }
+.coral-expertise-tabs button:hover { color: var(--coral-deep); }
+.coral-expertise-tabs button[aria-selected="true"]:hover { color: var(--paper); }
+.coral-expertise-tabs button:focus-visible, .coral-services [role="tabpanel"]:focus-visible { outline: 2px solid var(--coral-deep); outline-offset: 4px; }
+.coral-shipping-preview { display: grid; grid-template-columns: .8fr 1.2fr; align-items: center; min-height: 390px; gap: 30px; padding: 45px 50px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--sand); }
+.coral-shipping-preview__copy h3 { margin: 0; font: 400 clamp(36px, 4vw, 54px)/1.06 Georgia, serif; letter-spacing: -.04em; }
+.coral-shipping-preview__copy h3 em { color: var(--coral-deep); }
+.coral-shipping-preview__copy > p:not(.coral-eyebrow) { max-width: 300px; margin: 20px 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+.coral-shipping-preview__badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 30px; padding: 8px 12px; font-size: 10px; color: var(--muted); }
+.coral-shipping-preview__badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--coral); }
+.coral-shipping-preview__scene { width: 100%; height: auto; overflow: visible; }
+.coral-ship__sun { fill: var(--coral); opacity: .18; }
+.coral-ship__cloud, .coral-ship__mast, .coral-ship__waves { fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; }
+.coral-ship__cloud, .coral-ship__waves { opacity: .35; }
+.coral-ship__cabin { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+.coral-ship__windows, .coral-ship__hull { fill: var(--ink); }
+.coral-ship__container, .coral-ship__stripe { fill: var(--coral); }
+.coral-ship__container--upper { fill: var(--coral-deep); }
+.coral-ship__ribs { fill: none; stroke: var(--ink); stroke-width: 1.5; opacity: .25; }
+.coral-ship__portholes { fill: none; stroke: var(--paper); stroke-width: 4; stroke-linecap: round; }
+.coral-ship__vessel { animation: coralShipFloat 5s ease-in-out infinite; transform-origin: center; }
+.coral-ship__waves { animation: coralWaves 5s ease-in-out infinite; }
+@keyframes coralShipFloat { 0%, 100% { transform: translateY(0) rotate(-.5deg); } 50% { transform: translateY(-6px) rotate(.5deg); } }
+@keyframes coralWaves { 0%, 100% { transform: translateX(-5px); } 50% { transform: translateX(5px); } }
+@media (max-width: 760px) { .coral-shipping-preview { grid-template-columns: 1fr; gap: 10px; padding: 32px 24px; } .coral-shipping-preview__scene { max-width: 520px; justify-self: center; } }
+@media (max-width: 400px) { .coral-expertise-tabs { width: 100%; } .coral-expertise-tabs button { min-width: 0; flex: 1; gap: 20px; } }
+@media (prefers-reduced-motion: reduce) { .coral-ship__vessel, .coral-ship__waves { animation: none; } .coral-expertise-tabs button { transition: none; } }

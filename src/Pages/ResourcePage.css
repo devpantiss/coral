@@ -1,0 +1,8 @@
+.coral-resource-content { padding-block: 80px; }
+.coral-resource-content article, .coral-resource-grid > a { padding: 36px; background: var(--sand); border: 1px solid var(--line); border-radius: 8px; }
+.coral-resource-content h2 { margin: 0 0 18px; font: 400 34px/1.15 Georgia, serif; letter-spacing: -.03em; }
+.coral-resource-content p:not(.coral-eyebrow) { color: var(--muted); line-height: 1.8; font-size: 14px; }
+.coral-resource-content article > a, .coral-resource-grid span { display: inline-flex; align-items: center; gap: 16px; min-height: 44px; font-size: 13px; color: var(--coral-deep); }
+.coral-resource-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.coral-resource-content a:focus-visible { outline: 2px solid var(--coral-deep); outline-offset: 4px; }
+@media (max-width: 650px) { .coral-resource-grid { grid-template-columns: 1fr; } }

@@ -9,8 +9,8 @@ function ImpactPrelude() {
           <p className="coral-eyebrow coral-eyebrow--light"><span /> From footprint to progress</p>
           <h2 id="impact-prelude-title">Connected operations.<br /><em>Visible outcomes.</em></h2>
           <p>Scale matters when it creates safer work, stronger local economies and landscapes designed for life beyond mining.</p>
-          <a className="coral-impact-prelude__link" href="#impact">
-            Explore our impact <HiArrowRight aria-hidden="true" />
+          <a className="coral-impact-prelude__link" href="#achievements">
+            Explore our achievements <HiArrowRight aria-hidden="true" />
           </a>
         </div>
 

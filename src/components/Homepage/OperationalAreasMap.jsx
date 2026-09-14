@@ -3,33 +3,9 @@ import PropTypes from "prop-types";
 import { GeoJSON, MapContainer, useMap } from "react-leaflet";
 import { HiArrowLeft, HiArrowRight, HiOutlineGlobeAsiaAustralia, HiOutlineMapPin } from "react-icons/hi2";
 import "leaflet/dist/leaflet.css";
+import MineImpactPanel from "./MineImpactPanel";
 
-const operationalStates = [
-  {
-    name: "Odisha",
-    region: "Eastern India",
-    districtsFile: "/OdishaDistricts.geojson",
-    bounds: [[17.7, 81.3], [22.65, 87.6]],
-    districts: ["Angul", "Jajpur", "Kendujhar", "Sundargarh", "Kalahandi", "Jharsuguda", "Kandhamal", "Nuapada"],
-    description: "A core part of Coral’s operational footprint and connected mineral logistics network in eastern India.",
-  },
-  {
-    name: "Jharkhand",
-    region: "Eastern India",
-    districtsFile: "/JharkhandDistricts.geojson",
-    bounds: [[21.9, 83.2], [25.4, 87.95]],
-    districts: ["Dhanbad", "Bokaro", "Ramgarh", "West Singhbhum"],
-    description: "An active operating region within Coral’s eastern India network and resource corridor.",
-  },
-  {
-    name: "Chhattisgarh",
-    region: "Central India",
-    districtsFile: "/ChhattisgarhDistricts.geojson",
-    bounds: [[17.7, 80.2], [24.2, 84.45]],
-    districts: ["Korba", "Raigarh", "Dakshin Bastar Dantewada", "Uttar Bastar Kanker"],
-    description: "A strategic operating region connecting Coral’s central India footprint with its wider delivery network.",
-  },
-];
+import { operationalStates } from "../../data/operationalStates";
 
 function MapResizeHandler({ overview = false }) {
   const map = useMap();
@@ -232,6 +208,9 @@ function OperationalAreasMap() {
           </div>
 
           <aside className="coral-operations__panel" aria-live="polite">
+            {selectedDistrict ? (
+              <MineImpactPanel stateName={selectedState.name} district={selectedDistrict} onBack={() => setSelectedDistrict(null)} />
+            ) : <>
             <div className="coral-operations__panel-top">
               <span>{isDistrictView ? "Selected state" : "Operational footprint"}</span>
               <HiOutlineMapPin aria-hidden="true" />
@@ -266,6 +245,8 @@ function OperationalAreasMap() {
                 </div>
               </div>
             )}
+
+            </>}
 
             <div className="coral-operations__locations" aria-label="Choose an operational state">
               {operationalStates.map((state) => (

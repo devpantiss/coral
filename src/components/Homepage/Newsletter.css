@@ -1,0 +1,22 @@
+.coral-newsletter { background: var(--sand); color: var(--ink); padding: 86px 0; border-top: 1px solid var(--line); }
+.coral-newsletter__inner { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 90px; }
+.coral-newsletter__copy h2 { margin: 0; font: 400 clamp(38px, 4vw, 58px)/1.05 Georgia, serif; letter-spacing: -.04em; }
+.coral-newsletter__copy h2 em { color: var(--coral-deep); }
+.coral-newsletter__copy > p:last-child { max-width: 390px; margin: 22px 0 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+.coral-newsletter__form { min-width: 0; padding-top: 32px; }
+.coral-newsletter__form > label { display: block; margin-bottom: 12px; font-size: 12px; font-weight: 500; }
+.coral-newsletter__field { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 6px 6px 6px 18px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+.coral-newsletter__field > svg { color: var(--muted); width: 21px; height: 21px; flex-shrink: 0; }
+.coral-newsletter__field input { min-width: 0; width: 100%; border: 0; background: transparent; color: var(--ink); font: inherit; font-size: 13px; padding-block: 12px; }
+.coral-newsletter__field input::placeholder { color: var(--muted); }
+.coral-newsletter__field:focus-within { outline: 2px solid var(--coral-deep); outline-offset: 3px; }
+.coral-newsletter__field input:focus { outline: none; }
+.coral-newsletter__field button { display: inline-flex; align-items: center; justify-content: center; gap: 18px; min-height: 50px; border: 0; border-radius: 3px; padding: 0 20px; background: var(--coral); color: var(--ink); font-size: 12px; font-weight: 600; cursor: pointer; }
+.coral-newsletter__field button svg { width: 18px; height: 18px; }
+.coral-newsletter__field button:hover { background: color-mix(in srgb, var(--coral) 85%, var(--sand)); }
+.coral-newsletter__field button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.coral-newsletter__form > p { margin: 14px 0 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.coral-newsletter__form .coral-newsletter__status { color: var(--ink); }
+.coral-newsletter__status:empty { display: none; }
+@media (max-width: 850px) { .coral-newsletter__inner { grid-template-columns: 1fr; gap: 32px; } .coral-newsletter__form { padding: 0; } .coral-newsletter { padding-block: 64px; } }
+@media (max-width: 420px) { .coral-newsletter__field { flex-wrap: wrap; padding: 12px; gap: 8px; } .coral-newsletter__field input { width: calc(100% - 30px); } .coral-newsletter__field button { width: 100%; } }

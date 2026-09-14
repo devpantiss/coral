@@ -29,17 +29,42 @@ export const districtBlocks = {
   Nuapada: ["Khariar", "Komna", "Boden"],
 };
 
+// Sample workforce coverage for the additional dashboard states.
+const sampleDistricts = (rows) => rows.map(([name, blocks, counts]) => {
+  const district = { name, blocks, isSample: true };
+  workforceRoles.forEach((role, index) => { district[role.key] = counts[index]; });
+  district.total = counts.reduce((sum, count) => sum + count, 0);
+  return district;
+});
+
+export const workforceStates = [
+  { name: "Odisha", districtsFile: "/Orissa.geojson", districtProperty: "Dist_Name", bounds: [[17.78, 81.337], [22.57, 87.53]], districts: workforceDistricts },
+  { name: "Jharkhand", districtsFile: "/JharkhandDistricts.geojson", districtProperty: "district", bounds: [[21.9, 83.2], [25.4, 87.95]], isSample: true, districts: sampleDistricts([
+    ["Dhanbad", ["Baghmara", "Baliapur", "Govindpur"], [66, 31, 24, 21, 15, 13]],
+    ["Bokaro", ["Bermo", "Chandrapura", "Chas"], [51, 25, 21, 17, 12, 11]],
+    ["Ramgarh", ["Mandu", "Patratu", "Gola"], [43, 20, 18, 15, 10, 9]],
+    ["West Singhbhum", ["Noamundi", "Jagannathpur", "Manoharpur"], [58, 28, 23, 18, 13, 12]],
+  ]) },
+  { name: "Chhattisgarh", districtsFile: "/ChhattisgarhDistricts.geojson", districtProperty: "district", bounds: [[17.7, 80.2], [24.2, 84.45]], isSample: true, districts: sampleDistricts([
+    ["Korba", ["Katghora", "Pali", "Kartala"], [71, 34, 27, 23, 16, 14]],
+    ["Raigarh", ["Tamnar", "Gharghoda", "Kharsia"], [55, 26, 22, 18, 13, 11]],
+    ["Dakshin Bastar Dantewada", ["Dantewada", "Kate kalyan", "Kuakonda"], [47, 23, 19, 16, 11, 10]],
+    ["Uttar Bastar Kanker", ["Bhanupratappur", "Durgukondal", "Charama"], [36, 18, 16, 12, 9, 8]],
+  ]) },
+];
+
 const firstNames = ["Ajay", "Anil", "Bikash", "Deepak", "Ganesh", "Kiran", "Manoj", "Prakash", "Rakesh", "Sanjay", "Sunil", "Vijay", "Anita", "Kavita", "Meena", "Priya"];
 const lastNames = ["Behera", "Das", "Jena", "Majhi", "Nayak", "Patra", "Pradhan", "Sahu", "Singh", "Tudu"];
 const employmentStatuses = ["Permanent", "Contract", "Apprentice"];
 
 function blockRoleCount(district, roleKey, blockIndex) {
-  const base = Math.floor(district[roleKey] / 3);
-  return base + (blockIndex < district[roleKey] % 3 ? 1 : 0);
+  const blockCount = (district.blocks || districtBlocks[district.name]).length;
+  const base = Math.floor(district[roleKey] / blockCount);
+  return base + (blockIndex < district[roleKey] % blockCount ? 1 : 0);
 }
 
 export function getBlockSummaries(district) {
-  return districtBlocks[district.name].map((blockName, blockIndex) => {
+  return (district.blocks || districtBlocks[district.name]).map((blockName, blockIndex) => {
     const summary = { name: blockName };
     workforceRoles.forEach((role) => { summary[role.key] = blockRoleCount(district, role.key, blockIndex); });
     summary.total = workforceRoles.reduce((sum, role) => sum + summary[role.key], 0);
@@ -50,7 +75,7 @@ export function getBlockSummaries(district) {
 }
 
 export function getBlockWorkforce(district, blockName) {
-  const blockIndex = districtBlocks[district.name].indexOf(blockName);
+  const blockIndex = (district.blocks || districtBlocks[district.name]).indexOf(blockName);
   if (blockIndex < 0) return [];
   const records = [];
 
@@ -74,5 +99,5 @@ export function getBlockWorkforce(district, blockName) {
 }
 
 export function getDistrictWorkforce(district) {
-  return districtBlocks[district.name].flatMap((blockName) => getBlockWorkforce(district, blockName));
+  return (district.blocks || districtBlocks[district.name]).flatMap((blockName) => getBlockWorkforce(district, blockName));
 }

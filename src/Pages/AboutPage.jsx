@@ -1,56 +1,66 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import {
-  HiArrowRight,
-  HiCheck,
-  HiOutlineBuildingOffice2,
-  HiOutlineChartBarSquare,
-  HiOutlineGlobeAsiaAustralia,
-  HiOutlineLightBulb,
-  HiOutlineScale,
-  HiOutlineShieldCheck,
-  HiOutlineUsers,
-  HiOutlineWrenchScrewdriver,
-} from "react-icons/hi2";
-import InnerPage from "../components/common/PublicSite/InnerPage";
+import { HiArrowDown, HiArrowUpRight, HiOutlineMap, HiOutlineBolt, HiOutlineTruck, HiOutlineCog6Tooth, HiOutlineCube, HiOutlineBuildingOffice2, HiOutlineGlobeAsiaAustralia, HiOutlineShieldCheck, HiOutlineUsers, HiOutlineScale, HiOutlineCheckCircle } from "react-icons/hi2";
+import PublicHeader from "../components/common/PublicSite/PublicHeader";
+import PublicFooter from "../components/common/PublicSite/PublicFooter";
+import HeroVideo from "../components/common/PublicSite/HeroVideo";
+import { AboutHeading, EditorialImage, ContentNote } from "../components/About/AboutPrimitives";
+import MiningLifecycle from "../components/About/MiningLifecycle";
+import MiningTechnology from "../components/About/MiningTechnology";
+import AboutCredibility from "../components/About/AboutCredibility";
+import { capabilityItems, trackRecord, safetyAreas, esgPillars, communityAreas } from "../data/aboutContent";
+import { operationalStates } from "../data/operationalStates";
+import "./AboutPage.css";
 
-const operatingChain = [
-  ["Discover", "Resource evaluation, geology and feasibility"],
-  ["Develop", "Approvals, planning and mine infrastructure"],
-  ["Operate", "Production, HEMM and performance systems"],
-  ["Move", "Processing, dispatch and multimodal logistics"],
-  ["Restore", "Progressive rehabilitation and closure"],
-];
+const capabilityIcons = [HiOutlineMap, HiOutlineBuildingOffice2, HiOutlineBolt, HiOutlineTruck, HiOutlineCog6Tooth, HiOutlineCube, HiOutlineCog6Tooth, HiOutlineCube, HiOutlineTruck, HiOutlineBuildingOffice2, HiOutlineGlobeAsiaAustralia, HiOutlineGlobeAsiaAustralia];
+const esgIcons = [HiOutlineGlobeAsiaAustralia, HiOutlineUsers, HiOutlineScale];
 
-const principles = [
-  { icon: HiOutlineWrenchScrewdriver, title: "Execution discipline", text: "Detailed plans become controlled field execution through clear standards, ownership and shift-level performance management." },
-  { icon: HiOutlineShieldCheck, title: "Safety by design", text: "Critical-risk controls, competent people and visible leadership are built into how every activity is planned and performed." },
-  { icon: HiOutlineScale, title: "Integrity in action", text: "Transparent reporting, responsible decisions and respect for commitments guide every stakeholder relationship." },
-  { icon: HiOutlineLightBulb, title: "Continuous improvement", text: "Data, frontline insight and engineering discipline help us improve productivity without compromising people or place." },
-];
+export default function AboutPage() {
+  const page = useRef(null);
+  useEffect(() => {
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (preference.matches || !("IntersectionObserver" in window)) return undefined;
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add("mdo-in-view"); observer.unobserve(entry.target); }
+    }), { threshold: .08 });
+    page.current.querySelectorAll(".mdo-heading, .mdo-timeline li").forEach(element => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
 
-const stakeholders = [
-  { icon: HiOutlineBuildingOffice2, title: "Resource owners", text: "Clearer accountability, fewer interfaces and an operating system aligned to asset objectives." },
-  { icon: HiOutlineUsers, title: "Our people", text: "Role-ready training, safe workplaces, meaningful responsibility and pathways to grow." },
-  { icon: HiOutlineGlobeAsiaAustralia, title: "Communities & environment", text: "Local participation, transparent engagement and lifecycle stewardship of land and water." },
-  { icon: HiOutlineChartBarSquare, title: "Customers & partners", text: "Predictable quality, visible material flow and dependable mine-to-market delivery." },
-];
+  return <main className="mdo-about" ref={page}>
+    <PublicHeader />
+    <section className="mdo-hero" aria-labelledby="mdo-hero-title">
+      <HeroVideo src="/hero_bg.mp4" poster="/coral/coral-mine-hero.png" />
+      <div className="coral-shell mdo-hero__content"><p className="coral-eyebrow"><span /> About us / Mine Developer &amp; Operator</p><h1 id="mdo-hero-title">Engineering the future<br />of <em>responsible mining.</em></h1><p>Integrated mine development and operational expertise delivering safer, smarter and more efficient mining solutions.</p><div className="mdo-actions"><Link className="coral-button coral-button--primary" to="/capabilities">Explore our capabilities <HiArrowUpRight aria-hidden="true" /></Link><Link className="coral-button coral-button--ghost" to="/contact">Partner with Coral <HiArrowUpRight aria-hidden="true" /></Link></div></div>
+      <div className="coral-shell mdo-hero__bottom"><a href="#mdo-overview"><HiArrowDown aria-hidden="true" /> Discover Coral</a><span>Develop / Operate / Restore</span></div>
+    </section>
 
-function AboutPage() {
-  return <InnerPage eyebrow="About Coral" title="Built to develop." accent="Ready to operate." intro="Coral is an integrated Mine Developer and Operator connecting technical mine development, production systems, equipment, people and mineral logistics." image="/coral/impact-safety-team.jpg" imageAlt="Mining professionals reviewing field operations">
-    <section className="coral-page-intro coral-shell coral-about-intro"><div><p className="coral-eyebrow"><span /> Who we are</p><h2>Owner-level thinking.<br />Operator-level discipline.</h2></div><div><p className="coral-page-lead">We help turn mineral potential into safe, productive and responsibly managed mining operations.</p><p>As an MDO partner, Coral brings the capabilities required across the asset lifecycle into one coordinated delivery model. Technical planning stays connected to field execution, equipment performance, workforce capability, material movement and closure outcomes.</p></div></section>
+    <nav className="mdo-section-nav" aria-label="About page sections"><div className="coral-shell">{[["Our company", "mdo-overview"], ["Mining lifecycle", "mdo-lifecycle"], ["Capabilities", "mdo-capabilities"], ["Safety & ESG", "mdo-safety-title"], ["Leadership", "mdo-leadership-title"]].map(([label, id]) => <a key={id} href={`#${id}`}>{label}<HiArrowDown aria-hidden="true" /></a>)}</div></nav>
 
-    <section className="coral-about-snapshot" aria-label="Coral operating model overview"><div className="coral-shell"><article><strong>360°</strong><span>Lifecycle capability</span><small>Development to closure</small></article><article><strong>24/7</strong><span>Operating discipline</span><small>Shift-level control</small></article><article><strong>Pit → Port</strong><span>Connected delivery</span><small>Mine to customer</small></article><article><strong>One team</strong><span>Clear accountability</span><small>Fewer handoffs</small></article></div></section>
+    <section className="mdo-section" id="mdo-overview" aria-labelledby="mdo-overview-title"><div className="coral-shell mdo-overview">
+      <EditorialImage src="/coral/impact-safety-team.jpg" alt="Mining professionals reviewing field operations" caption="People, engineering and execution · Illustrative site image" />
+      <div><AboutHeading id="mdo-overview-title" eyebrow="Who we are" title="Owner-level thinking." accent="Operator-level discipline." /><p className="mdo-lead">Coral connects the expertise required to develop, operate and responsibly close a mine.</p><p>Our MDO approach keeps technical planning connected to field execution, equipment performance, workforce capability and mineral logistics.</p><p>One coordinated operating model. Clear responsibility at every interface. A longer view of the value a mine can create.</p><dl className="mdo-overview__metrics"><div><dt>States on our operational map</dt><dd>{String(operationalStates.length).padStart(2, "0")}</dd></div><div><dt>Districts in the mapped network</dt><dd>{operationalStates.reduce((total, state) => total + state.districts.length, 0)}</dd></div></dl><p className="mdo-overview__regions">{operationalStates.map(state => state.name).join(" · ")}</p><Link className="mdo-text-link" to="/#operational-areas">Explore our operational footprint <HiArrowUpRight aria-hidden="true" /></Link></div>
+    </div></section>
 
-    <section className="coral-about-mdo"><div className="coral-about-mdo__media"><img src="/coral/coral-mine-hero.png" alt="Open-cast mining operation" loading="lazy" /><span aria-hidden="true" /><div><small>Our role</small><strong>Mine Developer<br />&amp; Operator</strong></div></div><div className="coral-about-mdo__content"><p className="coral-eyebrow coral-eyebrow--light"><span /> The MDO model</p><h2>One system from resource to customer.</h2><p>An effective MDO does more than execute a mining plan. It coordinates the technical, operational, commercial and stakeholder systems that determine whether the plan succeeds.</p><ol>{operatingChain.map(([title, text], index) => <li key={title}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{title}</strong><small>{text}</small></div><HiCheck aria-hidden="true" /></li>)}</ol><Link to="/capabilities">Explore our capabilities <HiArrowRight aria-hidden="true" /></Link></div></section>
+    <MiningLifecycle />
 
-    <section className="coral-about-purpose"><div className="coral-shell"><header><p className="coral-eyebrow"><span /> Purpose & direction</p><h2>Performance with<br />a longer horizon.</h2></header><div className="coral-about-purpose__grid"><article><span>01 / Purpose</span><h3>Develop resources that move regions forward.</h3><p>Build mining operations that create dependable mineral supply, skilled employment, resilient local value chains and responsible land outcomes.</p></article><article><span>02 / Ambition</span><h3>Set a higher standard for integrated mine delivery.</h3><p>Be the partner resource owners trust to connect production performance with safety, transparency and lifecycle responsibility.</p></article></div></div></section>
+    <section className="mdo-section mdo-sand" aria-labelledby="mdo-scale-title"><div className="coral-shell"><AboutHeading id="mdo-scale-title" eyebrow="Scale & track record" title="Performance," accent="measured with clarity." description="A consolidated view of experience, production and operational resources." /><ContentNote>Company-verified figures are required. All bracketed values below are placeholders.</ContentNote><dl className="mdo-statistics">{trackRecord.map(([value, label]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></div></section>
 
-    <section className="coral-page-section coral-shell coral-about-principles"><div className="coral-page-heading"><p className="coral-eyebrow"><span /> How we work</p><h2>Principles that travel<br />to every site.</h2></div><div className="coral-page-card-grid coral-page-card-grid--four">{principles.map((item) => { const Icon = item.icon; return <article key={item.title}><Icon /><h3>{item.title}</h3><p>{item.text}</p></article>; })}</div></section>
+    <section className="mdo-section" id="mdo-capabilities" aria-labelledby="mdo-capabilities-title"><div className="coral-shell"><AboutHeading id="mdo-capabilities-title" eyebrow="Our capabilities" title="Technical depth." accent="Field-ready execution." description="An integrated capability framework spanning the complete mine lifecycle." /><div className="mdo-capabilities">{capabilityItems.map(([title, text], index) => { const Icon = capabilityIcons[index]; return <article key={title}><Icon aria-hidden="true" /><h3>{title}</h3><p>{text}</p></article>; })}</div><Link className="mdo-text-link" to="/capabilities">See our integrated solutions <HiArrowUpRight aria-hidden="true" /></Link></div></section>
 
-    <section className="coral-about-responsibility"><div className="coral-shell"><div className="coral-about-responsibility__copy"><p className="coral-eyebrow coral-eyebrow--light"><span /> Responsible by design</p><h2>Value shared across the operating system.</h2><p>Our decisions affect more than production. We consider the people, communities, customers and natural systems connected to every mine.</p><Link to="/sustainability">Our sustainability approach <HiArrowRight aria-hidden="true" /></Link></div><div className="coral-about-responsibility__grid">{stakeholders.map((item) => { const Icon = item.icon; return <article key={item.title}><Icon aria-hidden="true" /><div><h3>{item.title}</h3><p>{item.text}</p></div></article>; })}</div></div></section>
+    <section className="mdo-section mdo-sand" aria-labelledby="mdo-projects-title"><div className="coral-shell"><AboutHeading id="mdo-projects-title" eyebrow="Mining portfolio" title="Every asset." accent="A considered approach." description="Project profiles bring together location, mineral, delivery scope and operating performance." /><ContentNote>Verified project records are not yet available. The profiles below are explicitly unfilled; imagery is illustrative.</ContentNote><div className="mdo-projects">{["/coral/coral-mine-hero.png", "/coral/coral-port-logistics.png"].map((image, index) => <article key={image}><EditorialImage src={image} alt={index === 0 ? "Illustrative open-cast mine" : "Illustrative mineral handling and shipping facility"} caption="Project profile awaiting verification" /><div className="mdo-projects__body"><p className="mdo-placeholder">[PROJECT STATUS]</p><h3>[PROJECT NAME]</h3><dl>{[["Location", "[LOCATION]"], ["Mineral", "[MINERAL]"], ["Capacity", "[VERIFIED CAPACITY]"], ["MDO scope", "[CONTRACTED SCOPE]"], ["Key metrics", "[PROJECT METRICS]"]].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></div></article>)}</div><Link className="mdo-text-link" to="/projects">Explore our projects <HiArrowUpRight aria-hidden="true" /></Link></div></section>
 
-    <section className="coral-about-cta"><div className="coral-shell"><div><span>Build with Coral</span><h2>A mine needs more than a contractor. It needs an operating partner.</h2></div><Link to="/contact">Start a conversation <HiArrowRight aria-hidden="true" /></Link></div></section>
-  </InnerPage>;
+    <MiningTechnology />
+
+    <section className="mdo-section mdo-safety" aria-labelledby="mdo-safety-title"><div className="coral-shell mdo-safety__layout"><div><p className="coral-eyebrow"><span /> Safety first</p><h2 id="mdo-safety-title">Zero Harm.<br /><em>Every decision.</em></h2><p className="mdo-lead">A commitment that starts before the shift.</p><p>Safe work depends on competent people, effective controls and the confidence to stop and correct. Safety is a planning responsibility as much as an operating discipline.</p><ul>{safetyAreas.map(area => <li key={area}><HiOutlineShieldCheck aria-hidden="true" />{area}</li>)}</ul><div className="mdo-safety__metric"><strong>[SAFETY METRIC]</strong><span>Verified safe man-hours / reporting period to be supplied.</span></div></div><EditorialImage src="/coral/impact-safety-team.png" alt="Illustrative mining workforce and site safety scene" caption="Zero Harm is our commitment, not a claimed safety result." /></div></section>
+
+    <section className="mdo-section mdo-sand" aria-labelledby="mdo-esg-title"><div className="coral-shell"><AboutHeading id="mdo-esg-title" eyebrow="Sustainability & ESG" title="Responsible through" accent="the life of the mine." description="Consider the land, the people and the decisions that connect mining to its wider community." /><EditorialImage className="mdo-esg__landscape" src="/coral/impact-land-restoration.jpg" alt="Illustrative rehabilitated mine landscape with native planting and a water-retention pond" caption="Progressive rehabilitation · Illustrative landscape" /><div className="mdo-esg">{esgPillars.map((pillar, index) => { const Icon = esgIcons[index]; return <article key={pillar.title}><Icon aria-hidden="true" /><p>{pillar.title}</p><h3>{pillar.subtitle}</h3><ul>{pillar.items.map(item => <li key={item}>{item}</li>)}</ul></article>; })}</div><Link className="mdo-text-link" to="/sustainability">Our approach to sustainability <HiArrowUpRight aria-hidden="true" /></Link></div></section>
+
+    <AboutCredibility />
+
+    <section className="mdo-section mdo-community mdo-dark" aria-labelledby="mdo-community-title"><div className="coral-shell mdo-community__layout"><EditorialImage src="/coral/eco-mine-tourism-poster.jpg" alt="Illustrative landscape for post-mining eco-tourism" caption="Beyond extraction · Illustrative image" /><div><AboutHeading id="mdo-community-title" eyebrow="Community & social impact" title="Progress should" accent="stay with people." /><p>Local participation, meaningful skills and a future for restored land belong in the conversation about mining.</p><p>Our social-impact framework considers the needs of communities alongside the requirements of the operation.</p><ul>{communityAreas.map(area => <li key={area}><HiOutlineCheckCircle aria-hidden="true" />{area}</li>)}</ul><ContentNote>[CSR PROGRAMMES] · [VERIFIED COMMUNITY OUTCOMES]</ContentNote></div></div></section>
+
+    <section className="mdo-final-cta" aria-labelledby="mdo-cta-title"><div className="coral-shell"><p className="coral-eyebrow"><span /> Build with Coral</p><h2 id="mdo-cta-title">Building the future<br />of responsible mining.</h2><p>Discover how our integrated MDO capabilities can deliver safer, smarter and more efficient mining operations.</p><div className="mdo-actions"><Link className="coral-button coral-button--primary" to="/projects">Explore our projects <HiArrowUpRight aria-hidden="true" /></Link><Link className="coral-button" to="/capabilities">Explore our capabilities <HiArrowUpRight aria-hidden="true" /></Link><Link className="coral-button" to="/contact">Contact us <HiArrowUpRight aria-hidden="true" /></Link></div></div></section>
+    <PublicFooter />
+  </main>;
 }
-
-export default AboutPage;

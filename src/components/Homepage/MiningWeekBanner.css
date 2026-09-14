@@ -1,0 +1,10 @@
+.coral-impact-prelude.coral-mining-week {
+  background-image: url('/coral/coral-mine-hero.png');
+  background-color: var(--ink);
+  background-position: center;
+  scroll-margin-top: 96px;
+}
+.coral-mining-week__details > div { min-height: 82px; }
+.coral-mining-week__details span { display: flex; flex-direction: column; gap: 8px; font-size: 12px; text-transform: none; letter-spacing: .02em; color: var(--paper); }
+.coral-mining-week__details small { color: color-mix(in srgb, var(--paper) 65%, transparent); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+@media (prefers-reduced-motion: reduce) { .coral-impact-prelude.coral-mining-week { background-attachment: scroll; } }

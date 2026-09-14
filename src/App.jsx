@@ -17,12 +17,14 @@ import CareersPage from "./Pages/CareersPage";
 import ContactPage from "./Pages/ContactPage";
 import ServiceDetailPage from "./Pages/ServiceDetailPage";
 import FleetPage from "./Pages/FleetPage";
+import ResourcePage from "./Pages/ResourcePage";
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
+    else window.scrollTo(0, 0);
+  }, [pathname, hash]);
   return null;
 }
 
@@ -35,6 +37,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/capabilities" element={<CapabilitiesPage />} />
+          {["news", "reports", "tenders", "apps"].map(type => <Route key={type} path={`/${type}`} element={<ResourcePage type={type} />} />)}
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/sustainability" element={<SustainabilityPage />} />
           <Route path="/careers" element={<CareersPage />} />
