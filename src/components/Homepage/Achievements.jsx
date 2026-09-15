@@ -5,10 +5,10 @@ import { operationalStates } from "../../data/operationalStates";
 import "./Achievements.css";
 
 const visuals = [
-  { image: "/coral/coral-mine-hero.png", alt: "Terraced open-cast mine", title: "Land ready. Possibilities open.", text: "Preparing the ground for responsible mine development." },
-  { image: "/coral/impact-safety-team.jpg", alt: "Mining team reviewing operations in the field", title: "Skilled people. Stronger operations.", text: "Building capability where it matters: on the ground." },
+  { image: "/coral/land-acquisition-survey.jpg", alt: "Land surveying team assessing terrain for mine development", title: "Land ready. Possibilities open.", text: "Preparing the ground for responsible mine development." },
+  { image: "/coral/mining-workforce-team.jpg", alt: "Mining workforce reviewing operations at site", title: "Skilled people. Stronger operations.", text: "Building capability where it matters: on the ground." },
   { image: "/fleet3/haul-pack.png", alt: "Mining haul truck", title: "Equipped to keep moving.", text: "Supporting reliable equipment across the mining lifecycle." },
-  { image: "/coral/impact-land-restoration.jpg", alt: "Rehabilitated mine landscape with planting and water retention", title: "A new chapter for every landscape.", text: "Restoring land and creating possibilities beyond extraction." },
+  { image: "/coral/mine-rehabilitation.jpg", alt: "Rehabilitated mine landscape with native planting and water retention", title: "A new chapter for every landscape.", text: "Restoring land and creating possibilities beyond extraction." },
 ];
 
 const achievements = [

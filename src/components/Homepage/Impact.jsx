@@ -69,7 +69,7 @@ function Impact() {
 
         <div className="coral-impact__bento">
           <article className="coral-impact-feature coral-impact-feature--people">
-            <img src="/coral/impact-safety-team.jpg" alt="Indian mine operations team reviewing field data at a safe observation point" loading="lazy" />
+            <img src="/coral/mining-workforce-team.jpg" alt="Mining workforce reviewing field safety at an open-cast mine site" loading="lazy" />
             <div className="coral-impact-feature__shade" />
             <div className="coral-impact-feature__content">
               <span>People &amp; safety</span>
@@ -95,7 +95,7 @@ function Impact() {
           </div>
 
           <article className="coral-restoration-card">
-            <img src="/coral/impact-land-restoration.jpg" alt="Progressive mine land rehabilitation with native planting and a water-retention pond" loading="lazy" />
+            <img src="/coral/mine-rehabilitation.jpg" alt="Progressive mine land rehabilitation with native planting and a water-retention pond" loading="lazy" />
             <div className="coral-restoration-card__content">
               <p className="coral-eyebrow coral-eyebrow--light"><span /> Progressive rehabilitation</p>
               <h3>Plan the next landscape<br />before the first cut.</h3>

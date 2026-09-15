@@ -1,0 +1,11 @@
+export const operatedFleet = [
+  { id: 1, name: "Volvo 460 Dumper", image: "/fleet3/volv.png", stats: [["Payload", "41T"], ["Training", "Advanced"], ["Application", "Mining"], ["Registration", "OD-02-AB-1234"], ["Asset No", "AST-460-01"], ["Engine", "ENV460P55421"]] },
+  { id: 2, name: "Volvo Excavator", image: "/fleet3/ex.png", stats: [["Bucket", "2.1m³"], ["Training", "Operator"], ["Application", "Earthwork"], ["Registration", "OD-02-EX-2221"], ["Asset No", "AST-EX-02"], ["Engine", "ENEXC33219"]] },
+  { id: 3, name: "Tata Prima 2830K", image: "/fleet3/prime.png", stats: [["GVW", "28T"], ["Training", "Driver"], ["Application", "Transport"], ["Registration", "OD-02-TP-7781"], ["Asset No", "AST-TP-03"], ["Engine", "ENTP55219"]] },
+  { id: 4, name: "Komatsu Bulldozer", image: "/fleet3/bull.png", stats: [["Power", "215HP"], ["Training", "Operator"], ["Application", "Land Prep"], ["Registration", "OD-02-KB-4455"], ["Asset No", "AST-KB-04"], ["Engine", "ENKOM66211"]] },
+  { id: 5, name: "Toyota Pneumatic Forklift", image: "/fleet3/fork.png", stats: [["Capacity", "5T"], ["Training", "Operator"], ["Application", "Logistics"], ["Registration", "OD-02-TF-8891"], ["Asset No", "AST-TF-05"], ["Engine", "ENTOY44122"]] },
+  { id: 6, name: "Propel Electric Tipper", image: "/fleet3/prop.png", stats: [["Drive", "Electric"], ["Training", "Driver"], ["Application", "Mining"], ["Registration", "OD-02-PE-9901"], ["Asset No", "AST-PE-06"], ["Engine", "ENPRO88311"]] },
+  { id: 7, name: "Caterpillar Haulpack", image: "/fleet3/haul-pack.png", stats: [["Payload", "90T+"], ["Training", "Expert"], ["Application", "Open Cast"], ["Registration", "OD-02-CH-6721"], ["Asset No", "AST-CH-07"], ["Engine", "ENCAT99211"]] },
+  { id: 8, name: "Caterpillar Loader", image: "/fleet3/kom_loader.png", stats: [["Bucket", "5m³"], ["Training", "Operator"], ["Application", "Loading"], ["Registration", "OD-02-CL-5512"], ["Asset No", "AST-CL-08"], ["Engine", "ENLOD33211"]] },
+  { id: 9, name: "Ace Hydra Crane", image: "/fleet3/hydra_crane.png", stats: [["Lift", "15T"], ["Training", "Operator"], ["Application", "Rigging"], ["Registration", "OD-02-AH-7789"], ["Asset No", "AST-AH-09"], ["Engine", "ENHYD99111"]] },
+];

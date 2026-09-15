@@ -1,5 +1,5 @@
-// Editorial descriptions of the MDO delivery model; not project or performance claims.
-// Bracketed fields below must be replaced with company-approved information.
+// About-page content reflects the service framework and regional map used across the site.
+import { operationalStates } from "./operationalStates";
 export const lifecycleStages = [
   { title: "Mine Planning", phase: "Define", text: "Translate resource understanding into a coordinated mine plan, production sequence and infrastructure strategy.", deliverable: "An integrated technical baseline", image: "/coral/coral-mine-hero.png" },
   { title: "Mine Development", phase: "Prepare", text: "Connect site access, enabling works and mine infrastructure to the planned production sequence.", deliverable: "Readiness for controlled operations", image: "/coral/coral-mine-hero.png" },
@@ -28,11 +28,19 @@ export const capabilityItems = [
   ["Mine Reclamation", "Progressive rehabilitation and post-mining land outcomes."],
 ];
 
-export const trackRecord = [
-  ["[XX+ YEARS]", "Experience"], ["[XX+ PROJECTS]", "Project portfolio"],
-  ["[XX MT]", "Material handled"], ["[XX MT / YEAR]", "Production capacity"],
-  ["[XX+ MACHINES]", "Mining equipment"], ["[XX+ PEOPLE]", "Professionals"],
+export const companySnapshot = [
+  [String(operationalStates.length).padStart(2, "0"), "States on our operational map"],
+  [String(operationalStates.reduce((total, state) => total + state.districts.length, 0)), "Districts in the mapped network"],
+  [String(capabilityItems.length), "Mining capabilities"],
+  [String(lifecycleStages.length), "Mine lifecycle stages"],
 ];
+export const regionalProfiles = operationalStates.map(state => ({
+  title: state.name,
+  region: state.region,
+  description: state.description,
+  districts: state.districts.join(" · "),
+  image: state.name === "Odisha" ? "/coral/coral-mine-hero.png" : "/coral/coral-port-logistics.png",
+}));
 export const technologyGroups = [
   { title: "Understand the asset", label: "Survey & plan", items: ["Digital mine planning", "Drone surveying", "GIS & spatial intelligence"], description: "Connect survey information and spatial models to mine design and development decisions." },
   { title: "See the operation", label: "Monitor & coordinate", items: ["GPS fleet management", "IoT monitoring", "Real-time production monitoring"], description: "Bring fleet location, equipment condition and production information into a shared operational picture." },
@@ -44,6 +52,17 @@ export const esgPillars = [
   { title: "People", subtitle: "Build local opportunity.", items: ["Local employment", "Skill development", "Worker welfare", "Community development"] },
   { title: "Governance", subtitle: "Earn trust through action.", items: ["Regulatory compliance", "Ethical operations", "Transparency", "Responsible mining"] },
 ];
-export const leadershipRoles = ["Chairman / Founder", "Managing Director / CEO", "Technical Leadership"];
-export const milestones = ["Company founded", "First major project", "Operational expansion", "Major MDO contract", "Technology transformation", "Regional expansion"];
+export const deliveryTeams = [
+  { discipline: "Engineering", title: "Plan the asset", text: "Mine layouts, production sequences and infrastructure planning connect resource understanding to a practical development plan." },
+  { discipline: "Operations", title: "Coordinate the shift", text: "Fleet deployment, operator readiness and maintenance planning bring people and equipment together around the production sequence." },
+  { discipline: "Environment & community", title: "Plan beyond extraction", text: "Water management, land restoration and community transition connect daily operating decisions to the future of the site." },
+];
+export const deliveryStages = [
+  ["Evaluate", "Review the resource, site conditions and development requirements."],
+  ["Plan", "Align mine design, infrastructure, equipment and workforce needs."],
+  ["Develop", "Coordinate site access, enabling works and production readiness."],
+  ["Operate", "Bring excavation, loading, maintenance and grade control into the shift plan."],
+  ["Deliver", "Connect stockyards and dispatch to road, rail and port interfaces."],
+  ["Restore", "Integrate drainage, landform restoration and progressive rehabilitation."],
+];
 export const communityAreas = ["Education", "Healthcare", "Skill development", "Local employment", "Community infrastructure", "CSR & livelihoods"];

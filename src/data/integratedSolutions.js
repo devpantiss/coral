@@ -9,7 +9,7 @@ import {
 
 export const integratedSolutions = [
   {
-    number: "01", shortTitle: "Mine development", title: "Mine Development Solutions", icon: HiOutlineMap, image: "/coral/coral-mine-hero.png", label: "Asset development",
+    number: "01", shortTitle: "Mine development", title: "Mine Development Solutions", icon: HiOutlineMap, image: "/coral/mine-development-site.jpg", label: "Asset development",
     summary: "Technical, commercial and regulatory expertise to move mineral assets from first study to a development-ready mine.", outcomes: ["Development readiness", "Risk clarity", "Regulatory alignment"],
     journey: ["Explore", "Assess", "Plan", "Approve", "Develop"],
     services: [
@@ -33,7 +33,7 @@ export const integratedSolutions = [
     ],
   },
   {
-    number: "03", shortTitle: "HEMM & equipment", title: "HEMM & Equipment Solutions", icon: HiOutlineCog6Tooth, image: "/coral/impact-safety-team.jpg", label: "Fleet performance",
+    number: "03", shortTitle: "HEMM & equipment", title: "HEMM & Equipment Solutions", icon: HiOutlineCog6Tooth, image: "/coral/hemm-fleet-operations.jpg", label: "Fleet performance",
     summary: "Fit-for-purpose fleets, maintenance systems and rebuild capability engineered for availability and productivity.", outcomes: ["Fleet availability", "Higher utilisation", "Lifecycle cost control"],
     journey: ["Deploy", "Operate", "Maintain", "Rebuild", "Optimise"],
     services: [
@@ -45,7 +45,7 @@ export const integratedSolutions = [
     ],
   },
   {
-    number: "04", shortTitle: "Processing & logistics", title: "Mineral Processing & Logistics", icon: HiOutlineTruck, image: "/coral/coral-port-logistics.png", label: "Pit-to-market flow",
+    number: "04", shortTitle: "Processing & logistics", title: "Mineral Processing & Logistics", icon: HiOutlineTruck, image: "/coral/mineral-processing-plant.jpg", label: "Pit-to-market flow",
     summary: "A connected material flow that protects mineral quality and reliably moves production from pit to customer.", outcomes: ["Improved recovery", "Flow visibility", "Delivery assurance"],
     journey: ["Crush", "Screen", "Beneficiate", "Handle", "Dispatch"],
     services: [
@@ -57,7 +57,7 @@ export const integratedSolutions = [
     ],
   },
   {
-    number: "05", shortTitle: "Digital & sustainable", title: "Digital, Safety & Sustainable Mining", icon: HiOutlineChartBarSquare, image: "/coral/impact-land-restoration.jpg", label: "Responsible operations",
+    number: "05", shortTitle: "Digital & sustainable", title: "Digital, Safety & Sustainable Mining", icon: HiOutlineChartBarSquare, image: "/coral/water-energy-stewardship.jpg", label: "Responsible operations",
     summary: "Connected technology, engineered controls and environmental stewardship for safer, smarter mining.", outcomes: ["Critical-risk control", "Live intelligence", "Progressive restoration"],
     journey: ["Sense", "Connect", "Protect", "Improve", "Restore"],
     services: [
@@ -69,7 +69,7 @@ export const integratedSolutions = [
     ],
   },
   {
-    number: "06", shortTitle: "Workforce & community", title: "Mining Workforce Solutions", icon: HiOutlineUserGroup, image: "/coral/impact-safety-team.png", label: "People & communities",
+    number: "06", shortTitle: "Workforce & community", title: "Mining Workforce Solutions", icon: HiOutlineUserGroup, image: "/coral/community-development.jpg", label: "People & communities",
     summary: "Competent mine teams and inclusive local partnerships that strengthen performance and shared value.", outcomes: ["Role-ready teams", "Faster mobilisation", "Shared local value"],
     journey: ["Recruit", "Train", "Certify", "Deploy", "Perform"],
     services: [

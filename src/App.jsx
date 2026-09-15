@@ -14,10 +14,12 @@ import CapabilitiesPage from "./Pages/CapabilitiesPage";
 import ProjectsPage from "./Pages/ProjectsPage";
 import SustainabilityPage from "./Pages/SustainabilityPage";
 import CareersPage from "./Pages/CareersPage";
+import TendersPage from "./Pages/TendersPage";
 import ContactPage from "./Pages/ContactPage";
 import ServiceDetailPage from "./Pages/ServiceDetailPage";
 import FleetPage from "./Pages/FleetPage";
 import ResourcePage from "./Pages/ResourcePage";
+import NewsPage from "./Pages/NewsPage";
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -37,10 +39,13 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/capabilities" element={<CapabilitiesPage />} />
-          {["news", "reports", "tenders", "apps"].map(type => <Route key={type} path={`/${type}`} element={<ResourcePage type={type} />} />)}
+          {["reports", "apps"].map(type => <Route key={type} path={`/${type}`} element={<ResourcePage type={type} />} />)}
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/sustainability" element={<SustainabilityPage />} />
+          <Route path="/news" element={<NewsPage />} />
           <Route path="/careers" element={<CareersPage />} />
+          <Route path="/tenders" element={<TendersPage key="current" />} />
+          <Route path="/tenders/all" element={<TendersPage key="archive" />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/services/:serviceSlug" element={<ServiceDetailPage />} />
           <Route path="/fleet" element={<FleetPage />} />
