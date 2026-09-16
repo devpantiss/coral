@@ -57,6 +57,37 @@ const firstNames = ["Ajay", "Anil", "Bikash", "Deepak", "Ganesh", "Kiran", "Mano
 const lastNames = ["Behera", "Das", "Jena", "Majhi", "Nayak", "Patra", "Pradhan", "Sahu", "Singh", "Tudu"];
 const employmentStatuses = ["Permanent", "Contract", "Apprentice"];
 
+const certifications = [
+  "HEMM Safety Level-I",
+  "HEMM Safety Level-II",
+  "Mine Foreman Certificate",
+  "Gas Testing Certificate",
+  "First Aid Certificate",
+  "Blasting Certificate",
+  "DGMS Winding Engine Driver",
+  "ISO 45001 Safety",
+];
+
+const previousCompanies = [
+  "Hindalco Industries",
+  "Coal India Ltd.",
+  "Tata Steel Mining",
+  "SAIL Mining",
+  "Vedanta Resources",
+  "NMDC Ltd.",
+  "JSPL Mining",
+  "Adani Mining",
+  "Aditya Birla Mining",
+  "Freshers",
+];
+
+function generateAadhar(seed) {
+  const part1 = String(2000 + (seed * 37) % 8000).padStart(4, "0");
+  const part2 = String(1000 + (seed * 53) % 8999).padStart(4, "0");
+  const part3 = String(1000 + (seed * 71) % 8999).padStart(4, "0");
+  return `${part1} ${part2} ${part3}`;
+}
+
 function blockRoleCount(district, roleKey, blockIndex) {
   const blockCount = (district.blocks || districtBlocks[district.name]).length;
   const base = Math.floor(district[roleKey] / blockCount);
@@ -83,12 +114,22 @@ export function getBlockWorkforce(district, blockName) {
     const count = blockRoleCount(district, role.key, blockIndex);
     for (let index = 0; index < count; index += 1) {
       const seed = district.name.length * 7 + blockName.length * 3 + roleIndex * 11 + index;
+      const experienceYears = (seed % 18) + 1;
+      const companyCount = Math.min(3, Math.floor(experienceYears / 3) + 1);
+      const lastPackage = 180000 + (seed * 7919) % 620000;
       records.push({
         id: `${district.name}-${blockName}-${role.key}-${index}`,
         name: `${firstNames[seed % firstNames.length]} ${lastNames[(seed * 3) % lastNames.length]}`,
         jobRole: role.label,
+        location: `${district.name} / ${blockName}`,
+        aadhar: generateAadhar(seed),
         age: 22 + (seed % 35),
         gender: seed % 5 === 0 ? "Female" : "Male",
+        certification: certifications[seed % certifications.length],
+        experienceYears,
+        experienceCompanies: companyCount,
+        lastCompany: previousCompanies[(seed * 13) % previousCompanies.length],
+        lastPackage,
         employmentStatus: employmentStatuses[seed % employmentStatuses.length],
         roleKey: role.key,
       });

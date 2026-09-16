@@ -4,8 +4,8 @@ import {
   MdEngineering,
   MdInfoOutline,
   MdLocationCity,
-  MdMiscellaneousServices,
   MdOutlineBusinessCenter,
+  MdWorkOutline,
 } from "react-icons/md";
 
 const navItems = [
@@ -13,7 +13,7 @@ const navItems = [
   { to: "/dashboard/page1", icon: MdLocationCity, label: "Dist. Dashboard", match: ["/dashboard/page1"] },
   { to: "/dashboard/onboarding-centers", icon: MdOutlineBusinessCenter, label: "Project Onboarding", match: ["/dashboard/onboarding-centers"] },
   { to: "/dashboard/total-service-providers", icon: MdEngineering, label: "Mining Workforce", match: ["/dashboard/total-service-providers"] },
-  { to: "/dashboard/total-services", icon: MdMiscellaneousServices, label: "Mining Services", match: ["/dashboard/total-services"] },
+  { to: "/dashboard/total-services", icon: MdWorkOutline, label: "Job Role wise", match: ["/dashboard/total-services"] },
   { to: "/dashboard/about", icon: MdInfoOutline, label: "Info", match: ["/dashboard/about"] },
 ];
 

@@ -151,8 +151,36 @@ function DistrictDashboard() {
 
           <div className="coral-worker-table-wrap">
             <table>
-              <thead><tr><th>Name</th><th>Job role</th><th>Age</th><th>Gender</th><th>Employment status</th></tr></thead>
-              <tbody>{paginatedWorkers.map((worker) => <tr key={worker.id}><td><span className="coral-worker-avatar">{worker.name.split(" ").map((part) => part[0]).join("")}</span><strong>{worker.name}</strong></td><td>{worker.jobRole}</td><td>{worker.age}</td><td>{worker.gender}</td><td><span className={`coral-worker-status is-${worker.employmentStatus.toLowerCase()}`}>{worker.employmentStatus}</span></td></tr>)}</tbody>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Job Role</th>
+                  <th>Location</th>
+                  <th>Aadhar</th>
+                  <th>Gender</th>
+                  <th>Certification</th>
+                  <th colSpan={3} className="is-group-header">Experience</th>
+                </tr>
+                <tr className="coral-worker-subheader">
+                  <th /><th /><th /><th /><th /><th />
+                  <th>Years</th>
+                  <th>Companies</th>
+                  <th>Last Package</th>
+                </tr>
+              </thead>
+              <tbody>{paginatedWorkers.map((worker) => (
+                <tr key={worker.id}>
+                  <td><span className="coral-worker-avatar">{worker.name.split(" ").map((part) => part[0]).join("")}</span><strong>{worker.name}</strong></td>
+                  <td>{worker.jobRole}</td>
+                  <td>{worker.location}</td>
+                  <td><span className="coral-worker-aadhar">{worker.aadhar}</span></td>
+                  <td>{worker.gender}</td>
+                  <td><span className="coral-worker-cert">{worker.certification}</span></td>
+                  <td className="is-centered">{worker.experienceYears} yr{worker.experienceYears !== 1 ? "s" : ""}</td>
+                  <td className="is-centered">{worker.experienceCompanies}</td>
+                  <td className="is-numeric">₹{(worker.lastPackage / 100000).toFixed(1)}L</td>
+                </tr>
+              ))}</tbody>
             </table>
             {!filteredWorkers.length && <div className="coral-worker-empty"><HiMagnifyingGlass /><strong>No workers found</strong><span>Try changing your search or filters.</span></div>}
           </div>
