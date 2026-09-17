@@ -1,11 +1,12 @@
 export const workforceRoles = [
-  { key: "dumper", label: "Dumper / Tipper Operator", shortLabel: "Dumper / Tipper" },
-  { key: "excavator", label: "Excavator Operator", shortLabel: "Excavator" },
-  { key: "loader", label: "Loader Operator", shortLabel: "Loader" },
-  { key: "mechanic", label: "HEMM Mechanic", shortLabel: "HEMM Mechanic" },
-  { key: "electrician", label: "HEMM Electrician", shortLabel: "HEMM Electrician" },
-  { key: "welder", label: "Mine Welder", shortLabel: "Mine Welder" },
+  { key: "dumper",      label: "Dumper / Tipper Operator", shortLabel: "Dumper / Tipper",   image: "/roles/dumper.jpg"      },
+  { key: "excavator",   label: "Excavator Operator",       shortLabel: "Excavator",          image: "/roles/excavator.jpg"   },
+  { key: "loader",      label: "Loader Operator",          shortLabel: "Loader",             image: "/roles/loader.jpg"      },
+  { key: "mechanic",    label: "HEMM Mechanic",            shortLabel: "HEMM Mechanic",      image: "/roles/mechanic.jpg"    },
+  { key: "electrician", label: "HEMM Electrician",         shortLabel: "HEMM Electrician",   image: "/roles/electrician.jpg" },
+  { key: "welder",      label: "Mine Welder",              shortLabel: "Mine Welder",        image: "/roles/welder.jpg"      },
 ];
+
 
 export const workforceDistricts = [
   { name: "Jajapur", dumper: 48, excavator: 22, loader: 20, mechanic: 15, electrician: 11, welder: 10 },

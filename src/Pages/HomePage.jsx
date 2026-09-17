@@ -7,7 +7,7 @@ import WhatWeDoSlider from "../components/Homepage/WhatWeDoSlider";
 import EcoMineTourism from "../components/Homepage/EcoMineTourism";
 import Achievements from "../components/Homepage/Achievements";
 import OperationalAreasMap from "../components/Homepage/OperationalAreasMap";
-import SolutionsAccordion from "../components/Homepage/SolutionsAccordion";
+import SolutionsGrid from "../components/Homepage/SolutionsGrid";
 import ImpactPrelude from "../components/Homepage/ImpactPrelude";
 import PublicHeader from "../components/common/PublicSite/PublicHeader";
 import PublicFooter from "../components/common/PublicSite/PublicFooter";
@@ -26,7 +26,7 @@ function HomePage() {
   return <main className="coral-site"><Hero />
     <WhatWeDoSlider />
     <OperationalAreasMap />
-    <SolutionsAccordion />
+    <SolutionsGrid />
     <section className="coral-proof" aria-label="Our operating principles"><div className="coral-shell coral-proof__grid"><div><strong>360°</strong><span>Integrated capability</span></div><div><strong>24/7</strong><span>Operational discipline</span></div><div><strong>Pit → Port</strong><span>Connected delivery</span></div><div><strong>Zero compromise</strong><span>On safety &amp; integrity</span></div></div></section>
     <EcoMineTourism />
     <Achievements />

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { HiMagnifyingGlass, HiOutlineUserGroup } from "react-icons/hi2";
-import { MdEngineering, MdOutlineBadge, MdOutlineVerified, MdWorkOutline } from "react-icons/md";
+import { MdOutlineBadge, MdOutlineVerified, MdWorkOutline } from "react-icons/md";
+
 import { workforceDistricts, workforceRoles, getDistrictWorkforce } from "../data/workforceData";
 
 // Aggregate all workers across all Odisha districts once
@@ -29,15 +30,17 @@ function JobRoleCard({ role, workers }) {
 
   return (
     <article className="coral-jobrole-card">
-      <header className="coral-jobrole-card__header">
-        <span className="coral-jobrole-card__icon"><MdEngineering aria-hidden="true" /></span>
-        <div>
+      {/* ── Hero image ─────────────────────────────────────────── */}
+      <div className="coral-jobrole-card__hero">
+        <img src={role.image} alt={role.label} loading="lazy" draggable="false" />
+        <div className="coral-jobrole-card__hero-overlay">
           <h3>{role.label}</h3>
-          <small>{workers.length} workers across {districtSet.size} district{districtSet.size !== 1 ? "s" : ""}</small>
+          <small>{workers.length} workers · {districtSet.size} district{districtSet.size !== 1 ? "s" : ""}</small>
         </div>
-        <strong className="coral-jobrole-card__count">{workers.length}</strong>
-      </header>
+        <strong className="coral-jobrole-card__hero-count">{workers.length}</strong>
+      </div>
 
+      {/* ── Stats ──────────────────────────────────────────────── */}
       <div className="coral-jobrole-card__stats">
         <div>
           <span>Avg. experience</span>
@@ -80,6 +83,7 @@ function JobRoleCard({ role, workers }) {
     </article>
   );
 }
+
 
 function MoWashServicesListing() {
   const [search, setSearch] = useState("");

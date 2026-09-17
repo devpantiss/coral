@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import { HiArrowUpRight, HiChevronLeft, HiChevronRight, HiOutlineMapPin, HiPause, HiPlay } from 'react-icons/hi2';
 import { operatedFleet } from '../../data/operatedFleet';
 import { projectProfiles } from '../../data/projectProfiles';
-import { getServiceProjectCards, PROJECT_CARDS_PER_TAB } from '../../data/serviceProjectCards';
+import { getServiceProjectCards } from '../../data/serviceProjectCards';
+import { whatWeDoServices } from '../../data/whatWeDoServices';
+import { serviceDelivery } from '../../data/serviceDelivery';
 
 export function SectionHeading({ number, label, title, children }) {
   return <header className="service-section-heading"><div><p className="coral-eyebrow"><span />{number} / {label}</p><h2>{title}</h2></div>{children && <p>{children}</p>}</header>;
@@ -86,27 +88,169 @@ export function ServiceFleet({ delivery }) {
 }
 ServiceFleet.propTypes = { delivery: PropTypes.object.isRequired };
 
-const statuses = ['Completed', 'Ongoing'];
-export function ServiceProjects({ service, delivery }) {
-  const projects = projectProfiles.filter(project => delivery.projectTitles.includes(project.title));
-  const [status, setStatus] = useState(projects.some(project => project.status === 'Delivered') ? 'Completed' : 'Ongoing');
-  const visible = getServiceProjectCards(service, projects, status);
-  function handleKey(event, index) {
+const STATUSES = [
+  {
+    key:     'Completed',
+    label:   'Completed Projects',
+    eyebrow: 'Delivered · Proven outcomes',
+    bg:      '/coral/coral-mine-hero.png',
+    // matches projectProfiles status field
+    profileStatus: 'Delivered',
+  },
+  {
+    key:     'Ongoing',
+    label:   'Ongoing Projects',
+    eyebrow: 'In progress · Active sites',
+    bg:      '/coral/mine-development-site.jpg',
+    profileStatus: 'Ongoing',
+  },
+];
+
+/** Count real (non-placeholder) project profiles across all delivery segments for a given status key */
+function countProjects(profileStatus) {
+  // Collect all projectTitles across all segments
+  const allTitles = new Set(
+    Object.values(serviceDelivery).flatMap(d => d.projectTitles ?? [])
+  );
+  return projectProfiles.filter(
+    p => allTitles.has(p.title) && p.status === profileStatus
+  ).length;
+}
+
+/** One parallax banner + segment-tabs + cards block */
+function ProjectsBlock({ status, service, projects }) {
+  // 4 segment tabs – the current service's own segment is pre-selected
+  const segments = whatWeDoServices;
+  const defaultTab = segments.findIndex(s => s.slug === service.slug);
+  const [activeSegment, setActiveSegment] = useState(Math.max(0, defaultTab));
+  const seg = segments[activeSegment];
+
+  // Filter projects to the selected segment, then build card list
+  const segProjects = projectProfiles.filter(p => {
+    const segDelivery = serviceDelivery[seg.slug];
+    return segDelivery?.projectTitles?.includes(p.title);
+  });
+  const cards = getServiceProjectCards(seg, segProjects, status.key);
+
+  function handleSegKey(event, index) {
     let next;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') next = 1 - index;
-    else if (event.key === 'Home') next = 0;
-    else if (event.key === 'End') next = 1;
+    if      (event.key === 'ArrowRight') next = (index + 1) % segments.length;
+    else if (event.key === 'ArrowLeft')  next = (index + segments.length - 1) % segments.length;
+    else if (event.key === 'Home')       next = 0;
+    else if (event.key === 'End')        next = segments.length - 1;
     else return;
     event.preventDefault();
-    setStatus(statuses[next]);
-    event.currentTarget.parentElement.children[next].focus();
+    setActiveSegment(next);
+    event.currentTarget.parentElement.children[next]?.focus();
   }
-  return <section id="service-projects" className="service-projects service-section" aria-label="Segment projects"><div className="coral-shell">
-    <SectionHeading number="05" label="Our projects" title="Capability, put into practice.">Explore the project profiles connected to this segment, from delivered programmes to work in progress.</SectionHeading>
-    <div className="service-projects__toolbar"><div className="service-projects__tabs" role="tablist" aria-label="Project status">{statuses.map((value, index) => <button key={value} type="button" role="tab" id={`projects-tab-${value}`} aria-controls="service-projects-panel" aria-selected={status === value} tabIndex={status === value ? 0 : -1} onClick={() => setStatus(value)} onKeyDown={event => handleKey(event, index)}>{value}<span>{PROJECT_CARDS_PER_TAB}</span></button>)}</div><Link to="/projects">All projects <HiArrowUpRight aria-hidden="true" /></Link></div>
-    <div id="service-projects-panel" role="tabpanel" aria-labelledby={`projects-tab-${status}`} tabIndex={0}>
-      <div className="service-projects__grid">{visible.map((project, index) => <article className="service-project" key={`${status}-${index}`}><img src={project.image} alt={project.imageAlt || project.title} loading="lazy" /><div className="service-project__top"><span>{project.placeholder ? 'Placeholder' : status}</span><span>{project.model}</span></div><div className="service-project__body"><p><HiOutlineMapPin aria-hidden="true" />{project.location}</p><h3>{project.title}</h3><p>{project.description}</p><Link to="/contact" aria-label={`Discuss ${project.title}`}>{project.placeholder ? 'Discuss your requirement' : 'Discuss a similar project'} <HiArrowUpRight aria-hidden="true" /></Link></div></article>)}</div>
-    </div>
-  </div></section>;
+
+  return (
+    <>
+      {/* ── Parallax banner ───────────────────────────────────────── */}
+      <div
+        className="sp-banner"
+        style={{ backgroundImage: `url(${status.bg})` }}
+      >
+        <div className="sp-banner__shade" />
+        <div className="sp-banner__copy coral-shell">
+          <div className="sp-banner__left">
+            <p className="sp-banner__eyebrow">{status.eyebrow}</p>
+            <h3 className="sp-banner__title">{status.label}</h3>
+          </div>
+          <div className="sp-banner__stat">
+            <span className="sp-banner__stat-num">
+              {String(countProjects(status.profileStatus)).padStart(2, '0')}
+            </span>
+            <span className="sp-banner__stat-label">Projects</span>
+            <Link to="/projects" className="sp-banner__explore">
+              Explore all <HiArrowUpRight aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Segment tabs + cards ──────────────────────────────────── */}
+      <div className="sp-block">
+        <div className="coral-shell">
+          {/* Segment tab bar */}
+          <div
+            className="sp-seg-tabs"
+            role="tablist"
+            aria-label={`Service segment — ${status.label}`}
+          >
+            {segments.map((s, i) => (
+              <button
+                key={s.slug}
+                type="button"
+                role="tab"
+                aria-selected={i === activeSegment}
+                tabIndex={i === activeSegment ? 0 : -1}
+                onClick={() => setActiveSegment(i)}
+                onKeyDown={e => handleSegKey(e, i)}
+              >
+                <span className="sp-seg-tabs__num">{s.number}</span>
+                {s.title}
+              </button>
+            ))}
+          </div>
+
+          {/* Cards */}
+          <div
+            className="service-projects__grid"
+            role="tabpanel"
+            aria-label={`${seg.title} — ${status.label}`}
+            key={`${status.key}-${seg.slug}`}
+          >
+            {cards.map((project, index) => (
+              <article className="service-project" key={`${status.key}-${seg.slug}-${index}`}>
+                <img src={project.image} alt={project.imageAlt || project.title} loading="lazy" />
+                <div className="service-project__top">
+                  <span>{project.placeholder ? 'Preview' : status.key}</span>
+                  <span>{project.model}</span>
+                </div>
+                <div className="service-project__body">
+                  <p><HiOutlineMapPin aria-hidden="true" />{project.location}</p>
+                  <h3>{project.title}</h3>
+                  <p>{project.description}</p>
+                  <Link to="/contact" aria-label={`Discuss ${project.title}`}>
+                    {project.placeholder ? 'Discuss your requirement' : 'Discuss a similar project'}{' '}
+                    <HiArrowUpRight aria-hidden="true" />
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+ProjectsBlock.propTypes = { status: PropTypes.object.isRequired, service: PropTypes.object.isRequired, projects: PropTypes.array.isRequired };
+
+export function ServiceProjects({ service, delivery }) {
+  const projects = projectProfiles.filter(project => delivery.projectTitles.includes(project.title));
+  return (
+    <section id="service-projects" className="service-projects service-section" aria-label="Segment projects">
+      <div className="coral-shell">
+        <SectionHeading number="05" label="Our projects" title="Capability, put into practice.">
+          Explore the project profiles connected to this segment, from delivered programmes to work in progress.
+        </SectionHeading>
+      </div>
+
+      {STATUSES.map(status => (
+        <ProjectsBlock key={status.key} status={status} service={service} projects={projects} />
+      ))}
+
+      <div className="coral-shell">
+        <div className="service-projects__footer-cta">
+          <div>
+            <span>Full project portfolio</span>
+            <p>See every programme across all four service segments.</p>
+          </div>
+          <Link to="/projects">All projects <HiArrowUpRight aria-hidden="true" /></Link>
+        </div>
+      </div>
+    </section>
+  );
 }
 ServiceProjects.propTypes = { service: PropTypes.object.isRequired, delivery: PropTypes.object.isRequired };
