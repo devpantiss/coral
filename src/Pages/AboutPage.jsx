@@ -30,7 +30,7 @@ export default function AboutPage() {
   return <main className="mdo-about" ref={page}>
     <PublicHeader />
     <section className="mdo-hero" aria-labelledby="mdo-hero-title">
-      <HeroVideo src="/hero_bg.mp4" poster="/coral/coral-mine-hero.png" />
+      <HeroVideo src="/about_hero.mp4" poster="/coral/coral-mine-hero.png" />
       <div className="coral-shell mdo-hero__content"><p className="coral-eyebrow"><span /> About us / Mine Developer &amp; Operator</p><h1 id="mdo-hero-title">Engineering the future<br />of <em>responsible mining.</em></h1><p>Integrated mine development and operational expertise delivering safer, smarter and more efficient mining solutions.</p><div className="mdo-actions"><Link className="coral-button coral-button--primary" to="/capabilities">Explore our capabilities <HiArrowUpRight aria-hidden="true" /></Link><Link className="coral-button coral-button--ghost" to="/contact">Partner with Coral <HiArrowUpRight aria-hidden="true" /></Link></div></div>
       <div className="coral-shell mdo-hero__bottom"><a href="#mdo-overview"><HiArrowDown aria-hidden="true" /> Discover Coral</a><span>Develop / Operate / Restore</span></div>
     </section>

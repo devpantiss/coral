@@ -71,11 +71,48 @@
 .mdo-statistics dt { color: var(--muted); font-size: 12px; }
 .mdo-statistics dd { margin: 0; color: var(--coral-deep); font: 400 clamp(22px, 2.5vw, 36px)/1.2 Georgia, serif; letter-spacing: -.03em; overflow-wrap: anywhere; }
 .mdo-capabilities { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-.mdo-capabilities article { padding: 26px 22px; background: var(--sand); border-radius: 5px; border-bottom: 2px solid transparent; transition: transform .25s, border-color .25s; }
-.mdo-capabilities article:hover { transform: translateY(-4px); border-color: var(--coral); }
-.mdo-capabilities article > svg { width: 26px; height: 26px; color: var(--coral-deep); }
-.mdo-capabilities h3 { margin: 26px 0 12px; font: 400 23px/1.15 Georgia, serif; letter-spacing: -.02em; }
-.mdo-capabilities p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.75; }
+.mdo-capabilities article {
+  padding: 26px 22px;
+  background-color: var(--ink);
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+  border-bottom: 2px solid transparent;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+  position: relative;
+  overflow: hidden;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.mdo-capabilities article::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,14,12,.88) 40%, rgba(10,14,12,.35) 100%);
+  border-radius: inherit;
+  transition: opacity .25s;
+  z-index: 0;
+}
+.mdo-capabilities article:hover { transform: translateY(-4px); border-color: var(--coral); box-shadow: 0 12px 40px rgba(0,0,0,.35); }
+.mdo-capabilities article:hover::before { opacity: .72; }
+.mdo-capabilities article > svg { width: 26px; height: 26px; color: var(--coral); position: relative; z-index: 1; }
+.mdo-capabilities h3 { margin: 18px 0 10px; font: 400 21px/1.15 Georgia, serif; letter-spacing: -.02em; color: #fff; position: relative; z-index: 1; }
+.mdo-capabilities p { margin: 0; color: rgba(255,255,255,.65); font-size: 12px; line-height: 1.75; position: relative; z-index: 1; }
+/* Per-card background images — 12 capability cards */
+.mdo-capabilities article:nth-child(1)  { background-image: url('/coral/coral-mine-hero.png'); }
+.mdo-capabilities article:nth-child(2)  { background-image: url('/coral/mine-development-site.jpg'); }
+.mdo-capabilities article:nth-child(3)  { background-image: url('/coral/land-acquisition-survey.jpg'); }
+.mdo-capabilities article:nth-child(4)  { background-image: url('/coral/hemm-fleet-operations.jpg'); }
+.mdo-capabilities article:nth-child(5)  { background-image: url('/coral/coral-port-logistics.png'); }
+.mdo-capabilities article:nth-child(6)  { background-image: url('/coral/mineral-processing-plant.jpg'); }
+.mdo-capabilities article:nth-child(7)  { background-image: url('/coral/mineral-processing-plant.jpg'); }
+.mdo-capabilities article:nth-child(8)  { background-image: url('/coral/port-logistics-loading.jpg'); }
+.mdo-capabilities article:nth-child(9)  { background-image: url('/coral/coral-port-logistics.png'); }
+.mdo-capabilities article:nth-child(10) { background-image: url('/coral/mine-development-site.jpg'); }
+.mdo-capabilities article:nth-child(11) { background-image: url('/coral/water-energy-stewardship.jpg'); }
+.mdo-capabilities article:nth-child(12) { background-image: url('/coral/mine-rehabilitation.jpg'); }
 .mdo-projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .mdo-projects article { background: var(--paper); border-radius: 6px; overflow: hidden; }
 .mdo-projects .mdo-image { height: 275px; }
@@ -192,7 +229,7 @@
   .mdo-technology__visual figcaption { inset-inline: 18px; }.mdo-technology__visual { min-height: 320px; }
   .mdo-safety .mdo-image, .mdo-community .mdo-image { height: 340px; }
 }
-@media (prefers-reduced-motion: reduce) { .mdo-in-view { animation: none; }.mdo-capabilities article { transition: none; }.mdo-about .coral-button { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .mdo-in-view { animation: none; }.mdo-capabilities article, .mdo-capabilities article::before { transition: none; }.mdo-about .coral-button { transition: none; } }
 /* Page navigation and lifecycle progression preserve the shared site shell. */
 .mdo-section-nav { border-bottom: 1px solid var(--line); background: var(--sand); }
 .mdo-section-nav > div { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
