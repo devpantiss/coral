@@ -2,6 +2,7 @@ import "./App.css";
 import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import Layout from "./components/common/Layout/Layout";
+import Dashcam from "./Pages/Dashcam";
 import Dashboard from "./Pages/Dashboard";
 import DistrictDashboard from "./Pages/DistrictDashboard";
 import MoWashOnboardingCenters from "./Pages/MowashOnboardingCenters";
@@ -51,6 +52,7 @@ function App() {
           <Route path="/fleet" element={<FleetPage />} />
           <Route path="/dashboard/" element={<Layout />}>
             <Route index element={<Dashboard />} />
+            <Route path="dashcam" element={<Dashcam />} />
             <Route path="page1" element={<DistrictDashboard />} />
             <Route
               path="onboarding-centers"

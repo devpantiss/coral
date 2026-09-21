@@ -1,0 +1,593 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Dashcam — Professional Fleet Tracking Dashboard
+   3-panel layout: Sidebar | Map | Detail Panel
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Tokens ─────────────────────────────────────────────────────── */
+.dashcam-page {
+  --dc-bg:       #0b0e0c;
+  --dc-panel:    #111510;
+  --dc-elevated: #1a1f18;
+  --dc-text:     #edecea;
+  --dc-muted:    #7a8677;
+  --dc-border:   #242920;
+  --dc-accent:   var(--coral, #ef6a52);
+  --dc-soft:     rgba(239,106,82,.12);
+  --dc-screen:   #060907;
+  font-family: 'Inter', system-ui, sans-serif;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--dc-bg);
+  color: var(--dc-text);
+}
+
+/* Light theme override */
+.dashcam-page[data-theme=light] {
+  --dc-bg:       #f2f1ec;
+  --dc-panel:    #ffffff;
+  --dc-elevated: #e8e7e2;
+  --dc-text:     #1a1a1a;
+  --dc-muted:    #6b7280;
+  --dc-border:   #d1d0cb;
+  --dc-soft:     rgba(239,106,82,.08);
+}
+
+/* ─── Top bar ────────────────────────────────────────────────────── */
+.dc-topbar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 52px;
+  min-height: 52px;
+  padding: 0 18px;
+  background: var(--dc-panel);
+  border-bottom: 1px solid var(--dc-border);
+  flex-shrink: 0;
+}
+
+.dc-topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 20px;
+  border-right: 1px solid var(--dc-border);
+  margin-right: 20px;
+}
+.dc-topbar__icon {
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  background: var(--dc-soft);
+  border: 1px solid var(--dc-accent);
+  border-radius: 8px;
+  color: var(--dc-accent);
+  font-size: 16px;
+}
+.dc-topbar__title { display: block; font-size: 13px; font-weight: 700; line-height: 1.2; }
+.dc-topbar__sub   { display: block; font-size: 10px; color: var(--dc-muted); }
+
+.dc-topbar__stats { display: flex; align-items: center; gap: 2px; flex: 1; overflow-x: auto; }
+.dc-stat {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 6px;
+  font-size: 12px; white-space: nowrap;
+  cursor: default;
+}
+.dc-stat__dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.dc-stat strong { font-weight: 700; }
+.dc-stat span   { color: var(--dc-muted); font-size: 11px; }
+.dc-stat--sep   { margin-left: 12px; border-left: 1px solid var(--dc-border); padding-left: 14px; }
+.dc-stat--alert { color: #f87171; }
+.dc-stat--alert strong { color: #f87171; }
+
+.dc-topbar__right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+
+/* Live badge */
+.dc-live-badge {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; letter-spacing: .06em;
+  color: #4ade80;
+  border: 1px solid #4ade8055;
+  background: #4ade8012;
+  padding: 3px 9px; border-radius: 20px;
+}
+.dc-live-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #4ade80;
+  animation: dc-pulse 1.4s ease-in-out infinite;
+}
+@keyframes dc-pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* Clock */
+.dc-clock { text-align: right; }
+.dc-clock__time { display: block; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.dc-clock__date { display: block; font-size: 10px; color: var(--dc-muted); }
+
+/* Theme toggle */
+.dc-theme-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 10px; border-radius: 7px;
+  border: 1px solid var(--dc-border);
+  background: var(--dc-elevated);
+  color: var(--dc-muted); font-size: 14px; cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.dc-theme-btn:hover { border-color: var(--dc-accent); color: var(--dc-accent); }
+
+/* ─── Workspace ───────────────────────────────────────────────────── */
+.dc-workspace {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 1fr;
+}
+/* When detail panel is open, show it on the right */
+.dc-workspace:has(.dc-detail) {
+  grid-template-columns: 300px 1fr 380px;
+}
+
+/* ─── Sidebar ─────────────────────────────────────────────────────── */
+.dc-sidebar {
+  background: var(--dc-panel);
+  border-right: 1px solid var(--dc-border);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.dc-sidebar__head {
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid var(--dc-border);
+  flex-shrink: 0;
+}
+.dc-sidebar__title {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--dc-muted);
+}
+.dc-sidebar__badge {
+  background: var(--dc-elevated);
+  border: 1px solid var(--dc-border);
+  border-radius: 20px;
+  padding: 1px 8px; font-size: 11px; font-weight: 600;
+  color: var(--dc-text);
+}
+
+/* Search */
+.dc-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--dc-elevated);
+  border: 1px solid var(--dc-border);
+  border-radius: 8px;
+  padding: 7px 10px;
+  margin-bottom: 8px;
+  color: var(--dc-muted);
+  font-size: 12px;
+  transition: border-color .15s;
+}
+.dc-search:focus-within { border-color: var(--dc-accent); }
+.dc-search input {
+  flex: 1; background: none; border: 0; outline: none;
+  color: var(--dc-text); font-size: 12px;
+  min-width: 0;
+}
+.dc-search input::placeholder { color: var(--dc-muted); }
+.dc-search__clear {
+  background: none; border: 0; padding: 0; color: var(--dc-muted); cursor: pointer;
+  display: flex; align-items: center; font-size: 14px;
+}
+.dc-search__clear:hover { color: var(--dc-text); }
+
+/* Filters */
+.dc-filter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+.dc-filter-row select {
+  width: 100%; padding: 6px 8px; border-radius: 7px;
+  background: var(--dc-elevated); color: var(--dc-text);
+  border: 1px solid var(--dc-border); font-size: 11px; cursor: pointer;
+  outline: none;
+}
+.dc-filter-row select:focus { border-color: var(--dc-accent); }
+
+.dc-filter-count {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10px; color: var(--dc-muted); margin: 0;
+}
+.dc-clear-btn {
+  font-size: 10px; color: var(--dc-accent); background: none; border: 0;
+  padding: 0; cursor: pointer; text-decoration: underline;
+}
+
+/* Scrollable list */
+.dc-sidebar__list { flex: 1; overflow-y: auto; overflow-x: hidden; }
+.dc-sidebar__list::-webkit-scrollbar { width: 4px; }
+.dc-sidebar__list::-webkit-scrollbar-track { background: transparent; }
+.dc-sidebar__list::-webkit-scrollbar-thumb { background: var(--dc-border); border-radius: 4px; }
+
+/* State group */
+.dc-state-group {}
+.dc-state-label {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px 6px;
+  font-size: 9px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--dc-accent); background: color-mix(in srgb, var(--dc-accent) 6%, var(--dc-panel));
+  border-top: 1px solid var(--dc-border);
+  position: sticky; top: 0; z-index: 1;
+}
+
+/* Mine accordion */
+.dc-mine-group__header {
+  display: flex; align-items: center; gap: 7px;
+  width: 100%; padding: 9px 14px;
+  background: transparent; border: 0;
+  border-top: 1px solid var(--dc-border);
+  color: var(--dc-text); text-align: left;
+  font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: background .15s;
+}
+.dc-mine-group__header:hover { background: var(--dc-elevated); }
+.dc-mine-group__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--dc-accent); flex-shrink: 0; }
+.dc-mine-group__name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dc-mine-group__count {
+  font-size: 10px; font-weight: 400; color: var(--dc-muted);
+  border: 1px solid var(--dc-border); padding: 1px 6px; border-radius: 20px;
+}
+.dc-mine-group__alert {
+  display: flex; align-items: center; gap: 3px;
+  font-size: 9px; color: #f87171;
+  background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.2);
+  padding: 1px 5px; border-radius: 4px; flex-shrink: 0;
+}
+.dc-mine-group__caret { color: var(--dc-muted); font-size: 12px; flex-shrink: 0; }
+
+/* Operator list */
+.dc-oplist { list-style: none; padding: 0; margin: 0; }
+.dc-opcard {
+  border-top: 1px solid var(--dc-border);
+}
+.dc-opcard button {
+  width: 100%; display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px;
+  background: transparent; border: 0; color: var(--dc-text);
+  text-align: left; cursor: pointer; font-size: 12px;
+  transition: background .12s;
+}
+.dc-opcard button:hover { background: var(--dc-elevated); }
+.dc-opcard--active button { background: color-mix(in srgb, var(--dc-accent) 5%, var(--dc-panel)); }
+.dc-opcard--active button:hover { background: color-mix(in srgb, var(--dc-accent) 9%, var(--dc-panel)); }
+
+.dc-opcard__avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 10px; font-weight: 800; letter-spacing: .02em;
+  background: var(--dc-elevated);
+  border: 1.5px solid;
+  flex-shrink: 0;
+}
+.dc-opcard__body { flex: 1; min-width: 0; }
+.dc-opcard__name  { display: block; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dc-opcard__role  { display: block; font-size: 10px; color: var(--dc-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dc-opcard__loc   { display: flex; align-items: center; gap: 3px; font-size: 10px; color: var(--dc-muted); margin-top: 1px; }
+.dc-opcard__right { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+.dc-opcard__speed { font-size: 11px; font-weight: 700; }
+.dc-opcard__speed small { font-size: 9px; font-weight: 400; color: var(--dc-muted); margin-left: 1px; }
+.dc-opcard__caret { color: var(--dc-muted); font-size: 12px; }
+.dc-status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+/* Sidebar footer */
+.dc-sidebar__foot {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--dc-border);
+  font-size: 10px; color: var(--dc-muted);
+  flex-shrink: 0;
+}
+
+/* Empty state */
+.dc-empty-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; padding: 48px 20px; text-align: center;
+  color: var(--dc-muted); font-size: 12px;
+}
+.dc-empty-state svg { font-size: 28px; opacity: .4; }
+.dc-empty-state strong { color: var(--dc-text); }
+
+/* ─── Map ─────────────────────────────────────────────────────────── */
+.dashcam-map {
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  isolation: isolate;
+  background: var(--dc-bg);
+}
+.dashcam-map .leaflet-container {
+  height: 100%; width: 100%;
+  position: absolute; inset: 0;
+  background: var(--dc-bg);
+  font-family: inherit;
+}
+/* Dark map filter */
+.dashcam-map[data-map-theme=dark] .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) saturate(.35) brightness(.75) contrast(.92);
+}
+
+/* Map overlay card */
+.dashcam-map__label {
+  position: absolute; top: 12px; left: 12px; z-index: 800;
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(17,21,16,.88); backdrop-filter: blur(12px);
+  border: 1px solid var(--dc-border); border-radius: 10px;
+  padding: 9px 14px;
+  pointer-events: none;
+}
+.dashcam-map[data-map-theme=light] .dashcam-map__label { background: rgba(255,255,255,.88); }
+.dashcam-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dc-accent); animation: dc-pulse 1.4s ease-in-out infinite; flex-shrink: 0; }
+.dashcam-map__label strong { display: block; font-size: 12px; font-weight: 700; }
+.dashcam-map__label small  { display: block; font-size: 10px; color: var(--dc-muted); }
+
+/* Fit/Locate button */
+.dashcam-map__reset {
+  position: absolute; top: 12px; right: 12px; z-index: 800;
+  background: rgba(17,21,16,.88); backdrop-filter: blur(12px);
+  border: 1px solid var(--dc-border); border-radius: 8px;
+  color: var(--dc-text); font-size: 11px; font-weight: 600;
+  padding: 7px 12px; cursor: pointer; transition: border-color .15s;
+}
+.dashcam-map__reset:hover { border-color: var(--dc-accent); color: var(--dc-accent); }
+.dashcam-map[data-map-theme=light] .dashcam-map__reset { background: rgba(255,255,255,.88); }
+
+/* Bottom hint */
+.dashcam-map__hint {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 800; white-space: nowrap;
+  background: rgba(17,21,16,.82); backdrop-filter: blur(10px);
+  border: 1px solid var(--dc-border); border-radius: 20px;
+  font-size: 10px; color: var(--dc-muted);
+  padding: 5px 14px; pointer-events: none;
+}
+.dashcam-map[data-map-theme=light] .dashcam-map__hint { background: rgba(255,255,255,.82); }
+
+/* Legend */
+.dashcam-map__legend {
+  position: absolute; bottom: 46px; right: 12px; z-index: 800;
+  display: flex; flex-wrap: wrap; gap: 8px;
+  background: rgba(17,21,16,.88); backdrop-filter: blur(12px);
+  border: 1px solid var(--dc-border); border-radius: 8px;
+  padding: 7px 12px; font-size: 10px; color: var(--dc-muted);
+  pointer-events: none;
+}
+.dashcam-map__legend span { display: flex; align-items: center; gap: 4px; }
+.dashcam-map[data-map-theme=light] .dashcam-map__legend { background: rgba(255,255,255,.88); }
+.dc-map-legend-sep { width: 1px; height: 12px; background: var(--dc-border); }
+
+/* Equipment marker pins */
+.dashcam-equipment-pin {
+  display: grid; place-items: center;
+  border: 2px solid var(--dc-accent); border-radius: 10px;
+  background: color-mix(in srgb, var(--dc-accent) 15%, var(--dc-bg));
+  color: var(--dc-accent); width: 36px; height: 36px;
+  cursor: pointer; transition: transform .15s, box-shadow .15s;
+  box-shadow: 0 0 0 3px rgba(239,106,82,.12);
+}
+.dashcam-equipment-pin:hover, .dashcam-equipment-pin.is-selected {
+  transform: scale(1.25);
+  box-shadow: 0 0 0 5px rgba(239,106,82,.22);
+}
+.dashcam-equipment-pin.is-dumper    { border-radius: 8px; }
+.dashcam-equipment-pin.is-excavator { border-radius: 50%; }
+.dashcam-equipment-pin.is-loader    { border-radius: 12px 4px 12px 4px; }
+.dashcam-equipment-pin.is-status-active  { border-color: #4ade80; color: #4ade80; background: rgba(74,222,128,.12); }
+.dashcam-equipment-pin.is-status-idle    { border-color: #facc15; color: #facc15; background: rgba(250,204,21,.1);  }
+.dashcam-equipment-pin.is-status-alert   { border-color: #f87171; color: #f87171; background: rgba(248,113,113,.12); }
+.dashcam-equipment-pin.is-status-offline { border-color: #4b5563; color: #6b7280; background: rgba(75,85,99,.08); opacity: .55; }
+.dashcam-equipment-pin svg { width: 60%; height: 60%; }
+.dashcam-equipment-pin:focus-visible { outline: 3px solid var(--dc-text); outline-offset: 4px; }
+
+/* Tooltip */
+.dashcam-equipment-tooltip.leaflet-tooltip {
+  background: rgba(17,21,16,.95); backdrop-filter: blur(12px);
+  border: 1px solid var(--dc-border); border-radius: 10px;
+  padding: 10px 13px; color: var(--dc-text);
+  font-size: 11px; line-height: 1.6;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5);
+  pointer-events: none;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.dashcam-equipment-tooltip.leaflet-tooltip::before { display: none; }
+.dashcam-equipment-tooltip__title { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-weight: 700; }
+
+/* ─── Detail panel ────────────────────────────────────────────────── */
+.dc-detail {
+  background: var(--dc-panel);
+  border-left: 1px solid var(--dc-border);
+  display: flex; flex-direction: column;
+  overflow-y: auto; overflow-x: hidden;
+  min-width: 0;
+  animation: dc-slide-in .2s ease-out;
+}
+@keyframes dc-slide-in { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.dc-detail::-webkit-scrollbar { width: 4px; }
+.dc-detail::-webkit-scrollbar-track { background: transparent; }
+.dc-detail::-webkit-scrollbar-thumb { background: var(--dc-border); border-radius: 4px; }
+
+/* Back + operator header */
+.dc-detail__head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--dc-border);
+  flex-shrink: 0;
+}
+.dc-back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; color: var(--dc-muted);
+  background: none; border: 0; padding: 0; cursor: pointer; margin-bottom: 12px;
+  transition: color .15s;
+}
+.dc-back-btn:hover { color: var(--dc-accent); }
+.dc-back-btn svg  { font-size: 14px; }
+
+.dc-detail__operator {
+  display: flex; align-items: center; gap: 10px;
+}
+.dc-detail__avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 13px; font-weight: 800;
+  background: var(--dc-elevated);
+  border: 2px solid;
+  flex-shrink: 0;
+}
+.dc-detail__info { flex: 1; min-width: 0; }
+.dc-detail__info strong { display: block; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dc-detail__info span   { display: block; font-size: 11px; color: var(--dc-muted); }
+.dc-detail__device      { font-size: 10px !important; font-family: monospace; letter-spacing: .04em; }
+
+.dc-status-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700; border: 1px solid;
+  padding: 3px 8px; border-radius: 20px; flex-shrink: 0;
+}
+
+/* KPI grid */
+.dc-detail__kpis {
+  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1px; background: var(--dc-border);
+  border-top: 1px solid var(--dc-border);
+  border-bottom: 1px solid var(--dc-border);
+  flex-shrink: 0;
+}
+.dc-kpi-card {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; padding: 12px 8px;
+  background: var(--dc-panel); text-align: center;
+  font-size: 10px; color: var(--dc-muted);
+}
+.dc-kpi-card svg    { font-size: 14px; color: var(--dc-accent); margin-bottom: 2px; }
+.dc-kpi-card strong { font-size: 15px; font-weight: 800; color: var(--dc-text); line-height: 1; }
+
+/* Telemetry row */
+.dc-detail__tele {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--dc-border);
+  font-size: 11px; color: var(--dc-muted);
+  flex-shrink: 0;
+}
+.dc-detail__tele span { display: flex; align-items: center; gap: 4px; }
+
+/* Alert pills */
+.dc-detail__alerts {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--dc-border);
+  flex-shrink: 0;
+}
+.dc-alert-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; color: #f87171;
+  background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.22);
+  padding: 3px 8px; border-radius: 4px;
+}
+
+/* Camera feeds */
+.dc-detail__feeds {
+  display: flex; flex-direction: column; gap: 0;
+  flex: 1;
+}
+
+/* Location card */
+.dc-detail__loc {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--dc-border);
+  font-size: 11px; color: var(--dc-muted);
+  flex-shrink: 0;
+}
+.dc-detail__loc svg { color: var(--dc-accent); font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+.dc-detail__loc strong { display: block; color: var(--dc-text); font-size: 12px; font-weight: 700; }
+.dc-detail__loc span   { display: block; }
+.dc-detail__coords { font-family: monospace; font-size: 10px; }
+
+/* ─── Camera feed ─────────────────────────────────────────────────── */
+.dashcam-feed {
+  display: flex; flex-direction: column;
+  border-bottom: 1px solid var(--dc-border);
+  background: var(--dc-panel);
+  flex-shrink: 0;
+}
+.dashcam-feed header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-bottom: 1px solid var(--dc-border);
+  font-size: 11px;
+}
+.dashcam-feed header span:first-child {
+  font-size: 9px; font-weight: 800; letter-spacing: .1em;
+  color: var(--dc-accent); text-transform: uppercase;
+}
+.dashcam-feed header h3 { flex: 1; font-size: 11px; font-weight: 600; margin: 0; }
+.dc-feed-status { display: flex; align-items: center; gap: 4px; font-size: 10px; }
+.dc-feed-status__dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.dc-feed-status--playing       { color: #4ade80; }
+.dc-feed-status--buffering     { color: #facc15; }
+.dc-feed-status--paused        { color: var(--dc-muted); }
+.dc-feed-status--unavailable,
+.dc-feed-status--not-connected { color: #f87171; }
+
+.dashcam-feed__screen { aspect-ratio: 16/9; position: relative; background: var(--dc-screen); overflow: hidden; }
+.dc-video-wrap { position: absolute; inset: 0; }
+.dc-video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* HUD overlay */
+.dc-hud { position: absolute; inset: 0; pointer-events: none; z-index: 10; display: flex; flex-direction: column; justify-content: space-between; padding: 8px; }
+.dc-hud__top { display: flex; align-items: center; gap: 8px; }
+.dc-hud__device { background: rgba(0,0,0,.6); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,.1); color: #e2e8f0; font-size: 9px; font-weight: 700; letter-spacing: .06em; padding: 2px 7px; border-radius: 3px; }
+.dc-hud__rec    { display: flex; align-items: center; gap: 3px; background: rgba(239,68,68,.8); color: #fff; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 3px; letter-spacing: .06em; }
+.dc-hud__rec-dot { width: 5px; height: 5px; border-radius: 50%; background: #fff; animation: dc-pulse 1s ease-in-out infinite; }
+.dc-hud__bottom { display: flex; align-items: center; gap: 8px; }
+.dc-hud__kpi { background: rgba(0,0,0,.65); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,.08); color: #e2e8f0; font-size: 9px; padding: 3px 7px; border-radius: 3px; display: flex; align-items: center; gap: 4px; }
+.dc-hud__kpi svg { opacity: .6; }
+.dc-hud__kpi--time { margin-left: auto; font-variant-numeric: tabular-nums; }
+
+.dashcam-feed__empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; padding: 32px 16px; color: var(--dc-muted); text-align: center; font-size: 12px;
+}
+.dashcam-feed__empty svg { font-size: 28px; opacity: .3; }
+
+.dashcam-feed footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 14px; font-size: 10px; color: var(--dc-muted);
+  border-top: 1px solid var(--dc-border);
+}
+.dc-feed-footer__left { display: flex; align-items: center; gap: 5px; }
+
+/* ─── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .dc-workspace:has(.dc-detail) { grid-template-columns: 280px 1fr 360px; }
+}
+@media (max-width: 960px) {
+  .dc-workspace { grid-template-columns: 260px 1fr; }
+  .dc-workspace:has(.dc-detail) { grid-template-columns: 0 1fr 100%; }
+  .dc-sidebar { display: none; }
+  .dc-detail { position: fixed; inset: 52px 0 0 0; z-index: 900; width: 100%; }
+}
+@media (max-width: 640px) {
+  .dc-topbar__stats { display: none; }
+  .dc-topbar__brand .dc-topbar__sub { display: none; }
+  .dc-detail__kpis { grid-template-columns: 1fr 1fr; }
+}
+
+/* ─── State boundary tooltip ──────────────────────────────────────── */
+.dc-state-tooltip.leaflet-tooltip {
+  background: rgba(17,21,16,.9);
+  border: 1px solid rgba(239,106,82,.4);
+  color: #ef6a52;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+}
+.dc-state-tooltip.leaflet-tooltip::before { display: none; }

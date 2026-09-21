@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import {
   MdDashboard,
+  MdVideocam,
   MdEngineering,
   MdInfoOutline,
   MdLocationCity,
@@ -10,6 +11,7 @@ import {
 
 const navItems = [
   { to: "/dashboard", icon: MdDashboard, label: "Dashboard", match: ["/dashboard"], exact: true },
+  { to: "/dashboard/dashcam", icon: MdVideocam, label: "Dashcam", match: ["/dashboard/dashcam"] },
   { to: "/dashboard/page1", icon: MdLocationCity, label: "Dist. Dashboard", match: ["/dashboard/page1"] },
   { to: "/dashboard/onboarding-centers", icon: MdOutlineBusinessCenter, label: "Operators Onboarding", match: ["/dashboard/onboarding-centers"] },
   { to: "/dashboard/total-service-providers", icon: MdEngineering, label: "Mining Workforce", match: ["/dashboard/total-service-providers"] },
