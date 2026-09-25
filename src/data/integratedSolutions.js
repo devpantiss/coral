@@ -1,6 +1,5 @@
 import {
   HiOutlineBolt,
-  HiOutlineChartBarSquare,
   HiOutlineCog6Tooth,
   HiOutlineMap,
   HiOutlineTruck,
@@ -57,19 +56,7 @@ export const integratedSolutions = [
     ],
   },
   {
-    number: "05", shortTitle: "Digital & sustainable", title: "Digital, Safety & Sustainable Mining", icon: HiOutlineChartBarSquare, image: "/coral/water-energy-stewardship.jpg", label: "Responsible operations",
-    summary: "Connected technology, engineered controls and environmental stewardship for safer, smarter mining.", outcomes: ["Critical-risk control", "Live intelligence", "Progressive restoration"],
-    journey: ["Sense", "Connect", "Protect", "Improve", "Restore"],
-    services: [
-      ["Digital mining", "Fleet management, GPS, dispatch systems, drone surveys, IoT, analytics and production monitoring."],
-      ["Mine safety", "Safety systems, operator and fatigue monitoring, slope monitoring and emergency response."],
-      ["Environmental management", "Dust suppression, water, waste and dump management, plus emissions reduction."],
-      ["Mine closure", "Progressive reclamation, final closure, plantation, land restoration and post-mining monitoring."],
-      ["Operational intelligence", "Decision support that turns field data into safer and more productive actions."],
-    ],
-  },
-  {
-    number: "06", shortTitle: "Workforce & community", title: "Mining Workforce Solutions", icon: HiOutlineUserGroup, image: "/coral/community-development.jpg", label: "People & communities",
+    number: "05", shortTitle: "Workforce & community", title: "Mining Workforce Solutions", icon: HiOutlineUserGroup, image: "/coral/community-development.jpg", label: "People & communities",
     summary: "Competent mine teams and inclusive local partnerships that strengthen performance and shared value.", outcomes: ["Role-ready teams", "Faster mobilisation", "Shared local value"],
     journey: ["Recruit", "Train", "Certify", "Deploy", "Perform"],
     services: [
